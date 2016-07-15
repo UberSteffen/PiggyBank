@@ -49,7 +49,7 @@ namespace PiggyBank.Web.DatabaseHelper
             try
             {
                 model.Activated = false;
-                model.Id = OneTimePin();
+                model.PIN = OneTimePin();
                 db.Children.Add(model);
                 db.SaveChanges();
                 return true;
