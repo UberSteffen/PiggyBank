@@ -12,6 +12,11 @@ namespace PiggyBank.Web
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            routes.MapRoute(
+              name: "Tasked",
+              url: "{controller}/{action}/{id}/{task}",
+              defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional, task = UrlParameter.Optional }
+          );
 
             routes.MapRoute(
                 name: "Default",

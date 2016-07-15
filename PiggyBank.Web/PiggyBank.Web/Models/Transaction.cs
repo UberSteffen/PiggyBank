@@ -17,6 +17,12 @@ namespace PiggyBank.Web.Models
 
         public int ChildId { get; set; }
 
+        [Display(Name = "Pocket Balance")]
+        public double MainBalance { get; set; }
+
+        [Display(Name = "Savings Balance")]
+        public double SavingsBalance { get; set; }
+
         public DateTime TmStamp { get; set; }
 
         public double Amount { get; set; }
@@ -28,6 +34,7 @@ namespace PiggyBank.Web.Models
         Withdrawl,
         Deposit,
         PocketMoney,
-        DeleteChild
+        DeleteChild,
+        NoticePeriodTransfer
     }
 }

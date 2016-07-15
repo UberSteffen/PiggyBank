@@ -11,8 +11,12 @@
                : transactionType == "PocketMoney" ? "Pocket Money"
                : transactionType == "DeleteChild" ? "Delete Child"
                : transactionType == "Withdrawl" ? "Withdrawl"
+                              : transactionType == "NoticePeriodTransfer" ? "Notice Period Transfer"
+
                : "";
     }
+    
+    
 }
 <h2>History</h2>
 <p><a href="/Child/Index">Back To My Children</a></p>
@@ -30,11 +34,14 @@
                 <th>
                     Type
                 </th>
+         
+                <th>Savings</th>
+                <th>Pocket</th>
                 <th>
-                    @Html.DisplayNameFor(model => model.TmStamp)
+                    Total
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Amount)
+                    @Html.DisplayNameFor(model => model.TmStamp)
                 </th>
                 <th></th>
             </tr>
@@ -45,11 +52,19 @@
                     <td>
                         @TransactionString(item.TransactionType)
                     </td>
+               
                     <td>
-                        @Html.DisplayFor(modelItem => item.TmStamp)
+                        @Html.DisplayFor(modelItem => item.SavingsBalance)
                     </td>
                     <td>
+                        @Html.DisplayFor(modelItem => item.MainBalance)
+                    </td>
+
+                    <td>
                         @Html.DisplayFor(modelItem => item.Amount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TmStamp)
                     </td>
                 </tr>
             }

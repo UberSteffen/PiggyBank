@@ -26,5 +26,7 @@ namespace PiggyBank.Web.Models
         public DbSet<Transaction> Transactions { get; set; }
 
         public DbSet<Setting> Settings { get; set; }
+
+        public DbSet<WithdrawlRequest> Requests { get; set; }
     }
 }

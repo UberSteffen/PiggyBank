@@ -21,7 +21,13 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    @{
+                        if(User.Identity.IsAuthenticated)
+                        {
+                         <li>@Html.ActionLink("Requests", "Requests", "Child")</li>
+
+                        }
+                    }
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
@@ -29,8 +35,7 @@
         </div>
     </div>
     <div class="Left-Image">
-        <img src="~/content/mascot2.png" />
-        <p>Teaching the value of saving.</p>
+        <img src="~/content/mascot3ENG.png" />
     </div>
     <div class="container body-content">
         

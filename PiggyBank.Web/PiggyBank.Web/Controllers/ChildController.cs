@@ -28,10 +28,12 @@ namespace PiggyBank.Web.Controllers
             return View(model);
         }
 
+        #region Children
         [HttpGet]
         public ActionResult AddChild()
         {
             ViewBag.PaymentIntervals = dbhelper.GetPaymentIntervals();
+            ViewBag.Languages = dbhelper.Languages;
             return PartialView();
         }
 
@@ -39,6 +41,7 @@ namespace PiggyBank.Web.Controllers
         public ActionResult AddChild(Child model)
         {
             ViewBag.PaymentIntervals = dbhelper.GetPaymentIntervals();
+            ViewBag.Languages = dbhelper.Languages;
             if (ModelState.IsValid)
             {
                 model.ParentId = User.Identity.GetUserId();
@@ -59,6 +62,8 @@ namespace PiggyBank.Web.Controllers
         public ActionResult EditChild(int id)
         {
             ViewBag.PaymentIntervals = dbhelper.GetPaymentIntervals();
+            ViewBag.Languages = dbhelper.Languages;
+
             Child model = dbhelper.GetChild(id);
             return PartialView(model);
         }
@@ -68,6 +73,8 @@ namespace PiggyBank.Web.Controllers
         public ActionResult EditChild(Child model)
         {
             ViewBag.PaymentIntervals = dbhelper.GetPaymentIntervals();
+            ViewBag.Languages = dbhelper.Languages;
+
             if (ModelState.IsValid)
             {
                 model.ParentId = User.Identity.GetUserId();
@@ -135,6 +142,24 @@ namespace PiggyBank.Web.Controllers
             return View(model);
         }
 
+        #endregion
+
+        #region Requests
+
+        public ActionResult Requests()
+        {
+            var model = dbhelper.RequestsForParent(User.Identity.GetUserId());
+            return View(model);
+        }
+
+        public ActionResult HandleRequest(int id, string task)
+        {
+            WorkStatus status = dbhelper.HandleRequest(id, User.Identity.GetUserId(), task);
+            return RedirectToAction("Requests");
+        }
+        #endregion
+       
+
         public ActionResult DoPocketMoney(int id)
         {
 
@@ -168,6 +193,20 @@ namespace PiggyBank.Web.Controllers
 
 
         #region Helpers
+        public ActionResult GetChildName(int id)
+        {
+            var child = dbhelper.GetChild(id);
+
+            if(child != null)
+            {
+                return Content(child.Name);
+            }
+
+            else
+            {
+                return Content("No Name!");
+            }
+        }
 
         protected override void Dispose(bool disposing)
         {

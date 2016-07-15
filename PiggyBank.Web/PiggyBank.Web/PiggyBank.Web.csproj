@@ -188,6 +188,22 @@
     <Compile Include="Migrations\201607151829297_Settings.Designer.cs">
       <DependentUpon>201607151829297_Settings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607152113452_ChildLanguage.cs" />
+    <Compile Include="Migrations\201607152113452_ChildLanguage.Designer.cs">
+      <DependentUpon>201607152113452_ChildLanguage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607152204184_Requests.cs" />
+    <Compile Include="Migrations\201607152204184_Requests.Designer.cs">
+      <DependentUpon>201607152204184_Requests.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607152219357_WithdrawlFromSavings.cs" />
+    <Compile Include="Migrations\201607152219357_WithdrawlFromSavings.Designer.cs">
+      <DependentUpon>201607152219357_WithdrawlFromSavings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607152235029_TransactionsAdd.cs" />
+    <Compile Include="Migrations\201607152235029_TransactionsAdd.Designer.cs">
+      <DependentUpon>201607152235029_TransactionsAdd.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Child.cs" />
@@ -197,6 +213,7 @@
     <Compile Include="Models\SendSMS.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Models\Transaction.cs" />
+    <Compile Include="Models\WithdrawlRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -204,6 +221,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\mascot2.png" />
+    <Content Include="Content\mascot3ENG.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -254,10 +272,10 @@
     <Content Include="Views\Child\EditChild.cshtml" />
     <Content Include="Views\Child\PayChild.cshtml" />
     <Content Include="Views\Child\History.cshtml" />
+    <Content Include="Views\Child\Requests.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Mobiler\" />
     <Folder Include="Views\Mobile\" />
   </ItemGroup>
   <ItemGroup>
@@ -282,6 +300,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607151829297_Settings.resx">
       <DependentUpon>201607151829297_Settings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607152113452_ChildLanguage.resx">
+      <DependentUpon>201607152113452_ChildLanguage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607152204184_Requests.resx">
+      <DependentUpon>201607152204184_Requests.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607152219357_WithdrawlFromSavings.resx">
+      <DependentUpon>201607152219357_WithdrawlFromSavings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607152235029_TransactionsAdd.resx">
+      <DependentUpon>201607152235029_TransactionsAdd.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

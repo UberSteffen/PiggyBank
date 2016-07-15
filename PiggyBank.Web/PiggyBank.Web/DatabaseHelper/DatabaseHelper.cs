@@ -73,6 +73,7 @@ namespace PiggyBank.Web.DatabaseHelper
                 childToEdit.PercentToSave = model.PercentToSave;
                 childToEdit.PaymentInterval = model.PaymentInterval;
                 childToEdit.PhoneNumber = model.PhoneNumber;
+                childToEdit.Language = model.Language;
                 var entry = db.Entry(childToEdit);
                 entry.State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
@@ -104,20 +105,34 @@ namespace PiggyBank.Web.DatabaseHelper
             try
             {
                 var childToPay = db.Children.Find(model.ChildId);
-                if (model.PayIntoSavings)
-                {
-                    childToPay.SavingsBalance += model.Amount;
 
+                double moneyToSave = childToPay.PercentToSave / 100 * model.Amount;
+                switch(model.PaymentMethod)
+                {
+                    case "Pocket": childToPay.MainBalance += model.Amount;
+                        AddTransaction(childToPay.ParentId, childToPay.Id, model.Amount, 0, model.Amount, TransactionTypes.Deposit);
+
+                        break;
+                    case "Savings": childToPay.SavingsBalance += model.Amount;
+                        AddTransaction(childToPay.ParentId, childToPay.Id, model.Amount, model.Amount, 0, TransactionTypes.Deposit);
+
+                        break;
+                    case "Split": childToPay.MainBalance += model.Amount - moneyToSave;
+                        childToPay.MainBalance += moneyToSave;
+                        AddTransaction(childToPay.ParentId, childToPay.Id, model.Amount, moneyToSave, model.Amount - moneyToSave, TransactionTypes.Deposit);
+
+                        break;
                 }
 
-                else
-                {
-                    childToPay.MainBalance += model.Amount;
 
-                }
                 db.Entry(childToPay).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
-                AddTransaction(childToPay.ParentId, childToPay.Id, model.Amount, TransactionTypes.Deposit);
+
+             
+
+             
+
+
 
                 return true;
             }
@@ -140,7 +155,7 @@ namespace PiggyBank.Web.DatabaseHelper
                 {
                     db.Entry(childToDelete).State = System.Data.Entity.EntityState.Deleted;
                     db.SaveChanges();
-                    AddTransaction(parentId, id, 0, TransactionTypes.DeleteChild);
+                    AddTransaction(parentId, id, 0,0,0 ,TransactionTypes.DeleteChild);
                 }
 
                 return false;
@@ -152,7 +167,7 @@ namespace PiggyBank.Web.DatabaseHelper
             }
         }
 
-        public bool AddTransaction(string parentId, int childId, double amount, TransactionTypes transactionType)
+        public bool AddTransaction(string parentId, int childId, double amount, double savingsAmount, double pocketAmount, TransactionTypes transactionType)
         {
             try
             {
@@ -163,6 +178,8 @@ namespace PiggyBank.Web.DatabaseHelper
                     ParentId = parentId,
                     TmStamp = DateTime.Now,
                     Amount = amount,
+                    SavingsBalance = savingsAmount,
+                    MainBalance = pocketAmount,
                 };
 
                 db.Transactions.Add(trans);
@@ -187,7 +204,7 @@ namespace PiggyBank.Web.DatabaseHelper
                 childToAdd.SavingsBalance += moneyToSave;
                 db.Entry(childToAdd).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
-                AddTransaction(childToAdd.ParentId, childToAdd.Id, childToAdd.PocketMoney, TransactionTypes.PocketMoney);
+                AddTransaction(childToAdd.ParentId, childToAdd.Id, childToAdd.PocketMoney, moneyToSave, childToAdd.PocketMoney - moneyToSave, TransactionTypes.PocketMoney);
                 return true;
             }
             catch
@@ -265,7 +282,7 @@ namespace PiggyBank.Web.DatabaseHelper
             {
                 var smsLimit = GetSetting("SMSLimit");
 
-                if(Convert.ToInt32(smsLimit.Value) > 10)
+                if (Convert.ToInt32(smsLimit.Value) > 10)
                 {
                     return false;
                 }
@@ -277,6 +294,146 @@ namespace PiggyBank.Web.DatabaseHelper
                 return false;
             }
 
+        }
+
+        #endregion
+
+        #region Requests
+        public bool AddRequest(WithdrawlRequest model)
+        {
+            try
+            {
+                if (CanAddRequest(model.ChildId))
+                {
+                    model.TmStamp = DateTime.Now;
+                    db.Requests.Add(model);
+                    db.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+        }
+
+        private bool CanAddRequest(int childId)
+        {
+            try
+            {
+                var requestsFromChild = db.Requests.Where(x => x.ChildId == childId ).ToList();
+                if (requestsFromChild != null && requestsFromChild.Count() > 0)
+                {
+                    return false;
+                }
+
+                return true;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+        }
+
+        public IEnumerable<WithdrawlRequest> RequestsForParent(string parentId)
+        {
+            try
+            {
+                List<WithdrawlRequest> requestsForParent = new List<WithdrawlRequest>();
+                var childrenForParent = GetChildrenForParent(parentId);
+                foreach (var child in childrenForParent)
+                {
+                    var requestsFromChild = db.Requests.Where(x => x.ChildId == child.Id);
+                    requestsForParent.AddRange(requestsFromChild);
+                }
+
+                return requestsForParent;
+            }
+
+            catch
+            {
+                return new List<WithdrawlRequest>();
+            }
+        }
+
+        public int RequestsCount(string parentId)
+        {
+            int count = 0;
+            try
+            {
+                count = RequestsForParent(parentId).Count();
+                return count;
+            }
+
+            catch
+            {
+                count = -1;
+                return count;
+            }
+
+         
+        }
+
+        public WorkStatus HandleRequest(int childId, string parentId, string action)
+        {
+            try
+            {
+                var requestToHandel = db.Requests.Find(childId);
+
+                if (string.IsNullOrEmpty(action) || requestToHandel == null)
+                {
+                    return WorkStatus.Failed;
+                }
+
+
+                switch (action)
+                {
+                    case "approve": ApproveRequest(parentId,requestToHandel); return WorkStatus.Approved;
+                    case "deny": DenyRequest(requestToHandel); return WorkStatus.Denied;
+                    default: return WorkStatus.Failed;
+                }
+
+            }
+            catch (Exception)
+            {
+                return WorkStatus.Failed;
+            }
+        }
+
+        public void FutureTranser(WithdrawlRequest requestToHandel)
+        {
+            var child = GetChild(requestToHandel.ChildId);
+            AddTransaction(child.ParentId, child.Id, requestToHandel.Amount,-requestToHandel.Amount, requestToHandel.Amount, TransactionTypes.NoticePeriodTransfer);
+        }
+
+        private void ApproveRequest(string parentId,WithdrawlRequest model)
+        {
+            AddTransaction(parentId, model.ChildId, -model.Amount,0,-model.Amount,  TransactionTypes.Withdrawl);
+            DeleteRequest(model);
+
+        }
+
+        private void DenyRequest(WithdrawlRequest model)
+        {
+            DeleteRequest(model);
+        }
+
+        private bool DeleteRequest(WithdrawlRequest model)
+        {
+            try
+            {
+                db.Entry(model).State = System.Data.Entity.EntityState.Deleted;
+                db.SaveChanges();
+                return true;
+            }
+
+            catch
+            {
+                return false;
+            }
         }
 
         #endregion
@@ -303,13 +460,13 @@ namespace PiggyBank.Web.DatabaseHelper
         }
 
 
-
+        public string[] Languages = new string[] { "English", "Afrikaans", "isiZulu" };
         public int AuthenticateChild(int OTP)
         {
             try
             {
                 var child = db.Children.Where(x => x.PIN == OTP).FirstOrDefault();
-                if(child != null)
+                if (child != null)
                 {
                     child.Activated = true;
                     EditChild(child);
@@ -324,6 +481,7 @@ namespace PiggyBank.Web.DatabaseHelper
                 return -1;
             }
         }
+
     }
 
 
@@ -333,7 +491,9 @@ namespace PiggyBank.Web.DatabaseHelper
         Failed,
         Error,
         SMS,
-        SMSFail
+        SMSFail,
+        Approved,
+        Denied
     }
 
 }

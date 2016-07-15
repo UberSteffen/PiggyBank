@@ -15,6 +15,10 @@ namespace PiggyBank.Web.Models
         public string Name { get; set; }
 
         [Required]
+        public string Language { get; set; }
+
+
+        [Required]
         [Display(Name = "Phone Number")]
         [Phone]
         public string PhoneNumber { get; set; }
@@ -22,7 +26,7 @@ namespace PiggyBank.Web.Models
         public string ParentId { get; set; }
 
         [Required]
-        [Display(Name = "Main Balance")]
+        [Display(Name = "Pocket Balance")]
         [Range(0, double.MaxValue)]
         public double MainBalance { get; set; }
 

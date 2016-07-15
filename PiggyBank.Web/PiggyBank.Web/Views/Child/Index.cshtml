@@ -84,6 +84,7 @@
                                 <li>@Html.ActionLink("Delete", "DeleteChild", new { id = item.Id }, new { @onclick = "return confirm('Are you sure you wish to delete this account?');" })</li>
                                 <li>@Html.ActionLink("History", "History", new { id = item.Id }, new { })</li>
                                 <li>@Html.ActionLink("Send OTP", "SendOTP", new { id = item.Id }, new { })</li>
+                                @*<li><p onclick="TestWithdrawlAdd()">Test Withdrawl</p></li>*@
 
                             </ul>
                         </div>
@@ -107,6 +108,20 @@
             $.validator.unobtrusive.parse("form");
         }
 
+
+
+        function TestWithdrawlAdd()
+        {
+            var withdrawl = { "ChildId": 4, "Amount": 100, "TmStamp": "\/Date(1468618264031)\/","FromSavings":"false" }
+            jQuery.ajax({
+                type: 'POST',
+                url: "/Mobile/RequestCash",
+                contentType: "application/json; charset=utf-8",
+            datatype: 'json',
+            data: JSON.stringify(withdrawl)
+          
+        });
+        }
     </script>
 }
 <div id="pophere"></div>

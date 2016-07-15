@@ -6,14 +6,17 @@ using System.Web;
 
 namespace PiggyBank.Web.Models
 {
-    public class PaymentModel
+    public class WithdrawlRequest
     {
+        [Key]
+        public int Id { get; set; }
+        [Required]
         public int ChildId { get; set; }
         [Required]
-        [Range(0, double.MaxValue)]
         public double Amount { get; set; }
 
-        [Display(Name="Payment")]
-        public string PaymentMethod { get; set; }
+        public DateTime TmStamp { get; set; }
+
+        public bool FromSavings { get; set; }
     }
 }

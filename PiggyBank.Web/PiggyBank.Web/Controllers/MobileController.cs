@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PiggyBank.Web.DatabaseHelper;
+using PiggyBank.Web.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -24,6 +26,24 @@ namespace PiggyBank.Web.Controllers
         {
             var child = dbhelper.GetChild(id);
             return Json(child, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public ActionResult RequestCash(WithdrawlRequest model)
+        {
+            if(model.FromSavings)
+            {
+                dbhelper.FutureTranser(model);
+                return Json(new { result = WorkStatus.Success.ToString() }, JsonRequestBehavior.AllowGet);
+
+            }
+            bool success = dbhelper.AddRequest(model);
+            if (success)
+            {
+                return Json(new { result = WorkStatus.Success.ToString() }, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new { result = WorkStatus.Failed.ToString() } , JsonRequestBehavior.AllowGet);
+
         }
 
 

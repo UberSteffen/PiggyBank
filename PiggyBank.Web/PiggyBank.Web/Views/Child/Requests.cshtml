@@ -1,0 +1,52 @@
+﻿@model IEnumerable<PiggyBank.Web.Models.WithdrawlRequest>
+
+@{
+    ViewBag.Title = "Requests";
+}
+
+<h2>Requests</h2>
+
+@{
+    if(Model.Count() <=0)
+    {
+        <p>You have no withdrawl requests.</p>
+    }
+
+    else
+    {
+        <table class="table">
+    <tr>
+        <th>
+            Child Name
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TmStamp)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.Action("GetChildName", new { id = item.ChildId })
+        </td>
+        <td>
+            @item.Amount.ToString("#,##0.00")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TmStamp)
+        </td>
+        <td>
+            @Html.ActionLink("Approve", "HandleRequest", new { id = item.Id, task = "approve" }, new { @class = "btn btn-primary", @title = "Approve Request" }) |
+            @Html.ActionLink("Decline", "HandleRequest", new { id = item.Id, task = "deny" }, new { @class = "btn btn-danger", @title = "Deny Request" }) 
+        </td>
+    </tr>
+}
+
+</table>
+
+    }
+}
