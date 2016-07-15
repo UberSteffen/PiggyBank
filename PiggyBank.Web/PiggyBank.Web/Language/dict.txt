@@ -1,0 +1,8 @@
+Id,Eng,Afr,Zul
+1,"Teaching the value of saving.","Leer die waarde van spaar.","Ukufundisa ukubaluleka kokulondoloza."
+2,"My Pocket","My Beursie","Ephaketheni Lami"
+3,"Withdrawal","Onttrekking","Ukuhoxiswa"
+4,"Goals","Doelwitte","Imigomo"
+5,"Rewards","Belonings","Imivuzo"
+6,"Enter your One-Time Pin","Gee jou eenmalige Pinkode","Faka yakho Pin-isikhathi esisodwa"
+7,"Piggy Bank","Spaarvarkie","Isketekete"
