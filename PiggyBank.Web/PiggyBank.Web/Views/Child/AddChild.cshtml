@@ -19,6 +19,13 @@
                     @Html.ValidationMessageFor(model => model.Name)
                 </div>
             </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.PhoneNumber, new { @class = "control-label col-lg-3" })
+                <div class="col-lg-9">
+                    @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PhoneNumber)
+                </div>
+            </div>
 
             <div class="form-group">
                 @Html.LabelFor(model => model.MainBalance, new { @class = "control-label col-lg-3" })

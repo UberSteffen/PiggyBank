@@ -24,5 +24,7 @@ namespace PiggyBank.Web.Models
         public DbSet<Child> Children { get; set; }
 
         public DbSet<Transaction> Transactions { get; set; }
+
+        public DbSet<Setting> Settings { get; set; }
     }
 }

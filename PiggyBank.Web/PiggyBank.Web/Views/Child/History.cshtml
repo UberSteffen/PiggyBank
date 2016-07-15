@@ -1,0 +1,62 @@
+﻿@model IEnumerable<PiggyBank.Web.Models.Transaction>
+
+@{
+    ViewBag.Title = "History";
+}
+
+@functions{
+    public string TransactionString(string transactionType)
+    {
+        return transactionType == "Deposit" ? "Deposit"
+               : transactionType == "PocketMoney" ? "Pocket Money"
+               : transactionType == "DeleteChild" ? "Delete Child"
+               : transactionType == "Withdrawl" ? "Withdrawl"
+               : "";
+    }
+}
+<h2>History</h2>
+<p><a href="/Child/Index">Back To My Children</a></p>
+
+@{
+    if (Model.Count() <= 0)
+    {
+        <p>No transactions for this child.</p>
+    }
+
+    else
+    {
+        <table class="table">
+            <tr>
+                <th>
+                    Type
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TmStamp)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Amount)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @TransactionString(item.TransactionType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TmStamp)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Amount)
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+
+    }
+
+}

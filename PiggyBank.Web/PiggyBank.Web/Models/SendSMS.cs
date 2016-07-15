@@ -262,7 +262,7 @@ namespace WCPS.Class
             {
                 Console.WriteLine(ex.Message);
                 string tmStamp = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff");
-                File.AppendAllText(Constants.Path, tmStamp + " " + ex.Message + Environment.NewLine);
+                //File.AppendAllText(Constants.Path, tmStamp + " " + ex.Message + Environment.NewLine);
             }
             return result.Trim() + "\n";
         }

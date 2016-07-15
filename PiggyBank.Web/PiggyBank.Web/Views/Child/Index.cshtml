@@ -36,6 +36,8 @@
                 </th>
                 <th>Active</th>
                 <th></th>
+                <th></th>
+
             </tr>
 
             @foreach (var item in Model)
@@ -45,27 +47,28 @@
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.MainBalance)
+                        @item.MainBalance.ToString("N")
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.SavingsBalance)
+                        @item.SavingsBalance.ToString("N")
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.PercentToSave)%
+                        @item.PercentToSave.ToString("N")%
                     </td>
 
                     <td>
                         @{
-                            if(item.Activated)
-                            {
-                                <span class="text-success">Active</span>
-                            }
+                if (item.Activated)
+                {
+                    <span class="text-success">Active</span>
+                }
 
-                            else
-                            {
-                                <span class="text-danger">Inactive</span>
+                else
+                {
+                    <span class="text-danger">Inactive</span>
+                            <span title="This is the one time PIN used to verify accounts.">OTP : @item.PIN</span>
 
-                            }
+                }
                         }
                     </td>
                     <td>
@@ -77,11 +80,14 @@
                             <ul class="dropdown-menu">
                                 <li>@Ajax.ActionLink("Edit", "EditChild", new { id = item.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "ReloadValidation()", UpdateTargetId = "pophere" })</li>
                                 <li>@Ajax.ActionLink("Pay", "PayChild", new { id = item.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "ReloadValidation()", UpdateTargetId = "pophere" })</li>
-                                @*<li>@Html.ActionLink("Details", "Details", new { id = item.Id }) </li>*@
+                                <li>@Html.ActionLink("Pocket Money", "DoPocketMoney", new { id = item.Id })</li>
                                 <li>@Html.ActionLink("Delete", "DeleteChild", new { id = item.Id }, new { @onclick = "return confirm('Are you sure you wish to delete this account?');" })</li>
+                                <li>@Html.ActionLink("History", "History", new { id = item.Id }, new { })</li>
+                                <li>@Html.ActionLink("Send OTP", "SendOTP", new { id = item.Id }, new { })</li>
+
                             </ul>
                         </div>
-                       
+
                     </td>
                 </tr>
             }

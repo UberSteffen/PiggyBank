@@ -27,6 +27,7 @@ namespace PiggyBank.Web.Models
     {
         Withdrawl,
         Deposit,
+        PocketMoney,
         DeleteChild
     }
 }

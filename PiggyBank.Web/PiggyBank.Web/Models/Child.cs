@@ -14,10 +14,15 @@ namespace PiggyBank.Web.Models
         [Required]
         public string Name { get; set; }
 
+        [Required]
+        [Display(Name = "Phone Number")]
+        [Phone]
+        public string PhoneNumber { get; set; }
+
         public string ParentId { get; set; }
 
         [Required]
-        [Display(Name="Main Balance")]
+        [Display(Name = "Main Balance")]
         [Range(0, double.MaxValue)]
         public double MainBalance { get; set; }
 
@@ -27,7 +32,7 @@ namespace PiggyBank.Web.Models
         public double SavingsBalance { get; set; }
 
         [Required]
-        [Display(Name="Percentage To Save")]
+        [Display(Name = "Percentage To Save")]
         [Range(0, 100, ErrorMessage = "Please enter valid percentage")]
         public double PercentToSave { get; set; }
 
@@ -37,8 +42,8 @@ namespace PiggyBank.Web.Models
         public double PocketMoney { get; set; }
 
         [Required]
-        [Display(Name="Payment Interval")]
-        public string PaymentInterval        { get; set; }
+        [Display(Name = "Payment Interval")]
+        public string PaymentInterval { get; set; }
         public int PIN { get; set; }
 
         public bool Activated { get; set; }

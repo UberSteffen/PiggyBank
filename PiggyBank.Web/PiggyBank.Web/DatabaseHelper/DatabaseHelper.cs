@@ -72,7 +72,7 @@ namespace PiggyBank.Web.DatabaseHelper
                 childToEdit.PocketMoney = model.PocketMoney;
                 childToEdit.PercentToSave = model.PercentToSave;
                 childToEdit.PaymentInterval = model.PaymentInterval;
-
+                childToEdit.PhoneNumber = model.PhoneNumber;
                 var entry = db.Entry(childToEdit);
                 entry.State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
@@ -104,7 +104,7 @@ namespace PiggyBank.Web.DatabaseHelper
             try
             {
                 var childToPay = db.Children.Find(model.ChildId);
-                if(model.PayIntoSavings)
+                if (model.PayIntoSavings)
                 {
                     childToPay.SavingsBalance += model.Amount;
 
@@ -117,7 +117,7 @@ namespace PiggyBank.Web.DatabaseHelper
                 }
                 db.Entry(childToPay).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
-                AddTransaction(childToPay.ParentId, childToPay.Id, TransactionTypes.Deposit);
+                AddTransaction(childToPay.ParentId, childToPay.Id, model.Amount, TransactionTypes.Deposit);
 
                 return true;
             }
@@ -140,7 +140,7 @@ namespace PiggyBank.Web.DatabaseHelper
                 {
                     db.Entry(childToDelete).State = System.Data.Entity.EntityState.Deleted;
                     db.SaveChanges();
-                    AddTransaction(parentId, id, TransactionTypes.DeleteChild);
+                    AddTransaction(parentId, id, 0, TransactionTypes.DeleteChild);
                 }
 
                 return false;
@@ -152,7 +152,7 @@ namespace PiggyBank.Web.DatabaseHelper
             }
         }
 
-        public bool AddTransaction(string parentId, int childId, TransactionTypes transactionType)
+        public bool AddTransaction(string parentId, int childId, double amount, TransactionTypes transactionType)
         {
             try
             {
@@ -162,6 +162,7 @@ namespace PiggyBank.Web.DatabaseHelper
                     ChildId = childId,
                     ParentId = parentId,
                     TmStamp = DateTime.Now,
+                    Amount = amount,
                 };
 
                 db.Transactions.Add(trans);
@@ -175,10 +176,125 @@ namespace PiggyBank.Web.DatabaseHelper
             }
         }
 
+
+        public bool DoPocketMoney(int id)
+        {
+            try
+            {
+                var childToAdd = db.Children.Find(id);
+                double moneyToSave = Math.Round(childToAdd.PocketMoney * (childToAdd.PercentToSave / 100), 2);
+                childToAdd.MainBalance += childToAdd.PocketMoney - moneyToSave;
+                childToAdd.SavingsBalance += moneyToSave;
+                db.Entry(childToAdd).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+                AddTransaction(childToAdd.ParentId, childToAdd.Id, childToAdd.PocketMoney, TransactionTypes.PocketMoney);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         #endregion
 
+        #region Settings
 
+        public void IncrementSMSLimit()
+        {
+            Setting smsLimit = GetSetting("SMSLimit");
+            if (smsLimit == null)
+            {
+                smsLimit = new Setting()
+                {
+                    Name = "SMSLimit",
+                    Value = "1",
+                };
 
+                AddSetting(smsLimit);
+            }
+
+            else
+            {
+                smsLimit.Value = (Convert.ToInt32(smsLimit.Value) + 1).ToString();
+                EditSetting(smsLimit);
+            }
+        }
+
+        public Setting GetSetting(string name)
+        {
+            var setting = db.Settings.FirstOrDefault(x => x.Name == name);
+            return setting;
+        }
+
+        public bool AddSetting(Setting setting)
+        {
+            try
+            {
+                db.Settings.Add(setting);
+                db.SaveChanges();
+                return true;
+            }
+
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool EditSetting(Setting setting)
+        {
+
+            try
+            {
+                db.Entry(setting).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+                return true;
+            }
+
+            catch
+            {
+                return false;
+            }
+
+        }
+
+        public bool CanSendSMS()
+        {
+
+            try
+            {
+                var smsLimit = GetSetting("SMSLimit");
+
+                if(Convert.ToInt32(smsLimit.Value) > 10)
+                {
+                    return false;
+                }
+                return true;
+            }
+
+            catch
+            {
+                return false;
+            }
+
+        }
+
+        #endregion
+
+        public IEnumerable<Transaction> GetTransactionsForChild(int id)
+        {
+            try
+            {
+                var transactions = from x in db.Transactions
+                                   where x.ChildId == id
+                                   select x;
+                return transactions;
+            }
+            catch
+            {
+                return new List<Transaction>();
+            }
+        }
 
         private int OneTimePin()
         {
@@ -188,6 +304,26 @@ namespace PiggyBank.Web.DatabaseHelper
 
 
 
+        public int AuthenticateChild(int OTP)
+        {
+            try
+            {
+                var child = db.Children.Where(x => x.PIN == OTP).FirstOrDefault();
+                if(child != null)
+                {
+                    child.Activated = true;
+                    EditChild(child);
+                    return child.Id;
+                }
+
+                return -1;
+            }
+
+            catch
+            {
+                return -1;
+            }
+        }
     }
 
 
@@ -195,7 +331,9 @@ namespace PiggyBank.Web.DatabaseHelper
     {
         Success,
         Failed,
-        Error
+        Error,
+        SMS,
+        SMSFail
     }
 
 }

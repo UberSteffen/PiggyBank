@@ -6,6 +6,8 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using PiggyBank.Web.DatabaseHelper;
+using WCPS.Class;
+using System.Collections;
 namespace PiggyBank.Web.Controllers
 {
     [Authorize]
@@ -18,7 +20,9 @@ namespace PiggyBank.Web.Controllers
         {
             ViewBag.StatusMessage =
                message == WorkStatus.Success ? "Your transaction was successful."
+               : message == WorkStatus.SMS ? "Your SMS has been sent."
                : message == WorkStatus.Failed ? "Your transaction was unsuccessful."
+               : message == WorkStatus.SMSFail ? "Your SMS failed to send. You may have reached your limit."
                : "";
             IEnumerable<Child> model = dbhelper.GetChildrenForParent(User.Identity.GetUserId());
             return View(model);
@@ -42,6 +46,7 @@ namespace PiggyBank.Web.Controllers
 
                 if (success)
                 {
+                    SendSMSOTP(model.Id);
                     return RedirectToAction("Index", "Child", new { message = WorkStatus.Success });
                 }
             }
@@ -54,7 +59,6 @@ namespace PiggyBank.Web.Controllers
         public ActionResult EditChild(int id)
         {
             ViewBag.PaymentIntervals = dbhelper.GetPaymentIntervals();
-
             Child model = dbhelper.GetChild(id);
             return PartialView(model);
         }
@@ -93,8 +97,8 @@ namespace PiggyBank.Web.Controllers
         [HttpPost]
         public ActionResult PayChild(PaymentModel model)
         {
-         
-            if(ModelState.IsValid)
+
+            if (ModelState.IsValid)
             {
                 bool success = dbhelper.PayChild(model);
 
@@ -104,16 +108,15 @@ namespace PiggyBank.Web.Controllers
                 }
             }
 
-             return RedirectToAction("Index","Child","Error");
+            return RedirectToAction("Index", "Child", "Error");
 
         }
 
 
-        
         public ActionResult DeleteChild(int id)
         {
             bool success = dbhelper.DeleteChild(User.Identity.GetUserId(), id);
-            if(success)
+            if (success)
             {
                 return RedirectToAction("Index", "Child", new { message = WorkStatus.Success });
 
@@ -125,6 +128,45 @@ namespace PiggyBank.Web.Controllers
 
             }
         }
+
+        public ActionResult History(int id)
+        {
+            var model = dbhelper.GetTransactionsForChild(id);
+            return View(model);
+        }
+
+        public ActionResult DoPocketMoney(int id)
+        {
+
+            bool success = dbhelper.DoPocketMoney(id);
+            if (success)
+            {
+                return RedirectToAction("Index", "Child", new { message = WorkStatus.Success });
+
+            }
+
+            else
+            {
+                return RedirectToAction("Index", "Child", new { message = WorkStatus.Failed });
+
+            }
+        }
+
+        [HttpGet]
+        public ActionResult SendOTP(int id)
+        {
+
+           bool success = SendSMSOTP(id);
+                if(success)
+                {
+                    return RedirectToAction("Index", "Child", new { message = WorkStatus.SMS });
+
+                }
+            
+            return RedirectToAction("Index", "Child", new { message = WorkStatus.Failed });
+        }
+
+
         #region Helpers
 
         protected override void Dispose(bool disposing)
@@ -134,6 +176,30 @@ namespace PiggyBank.Web.Controllers
                 dbhelper.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private bool SendSMSOTP(int id)
+        {
+            try
+            {
+                var child = dbhelper.GetChild(id);
+                dbhelper.IncrementSMSLimit();
+                if(dbhelper.CanSendSMS())
+                {
+                    string smsMsg = string.Format("Hi {0}, your One-Time-PIN is {1} to access your piggy-bank app. Happy Saving!", child.Name, child.PIN);
+
+                    string dataMsg = SendSMS.seven_bit_message("brazer911", "ovooxich", child.PhoneNumber, smsMsg);
+                    Hashtable hash = SendSMS.send_sms(dataMsg, "http://bulksms.2way.co.za:5567/eapi/submission/send_sms/2/2.0");
+                    return true;
+
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+                 return false;
+            }
+
         }
         #endregion
     }

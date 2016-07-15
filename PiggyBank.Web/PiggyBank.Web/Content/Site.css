@@ -57,3 +57,91 @@ input[type="checkbox"].input-validation-error {
     z-index:300;
     width:40%;
 }
+
+.navbar-inverse{
+    background-color:#22B14C;
+    border:#22B14C;
+}
+
+.navbar-inverse .navbar-brand {
+    color: #ededed;
+}
+
+.navbar-inverse a:hover
+{
+    color:white;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: #ededed;
+}
+
+.btn-primary,btn-primary:active{
+        background-color:#22B14C;
+        border:black;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.open .dropdown-toggle.btn-primary {
+        background-color:#22B14C;
+
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary {
+    color: #ffffff;
+     background-color:#006849;
+        border:black;
+}
+
+
+.dropdown-menu > li > a {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: normal;
+    line-height: 1.428571429;
+    color: #333333;
+    white-space: nowrap;
+}
+
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #004d36;
+}
+
+
+
+.open .dropdown-toggle.btn-default {
+  color: #333333;
+     background-color:#004d36;
+  border-color: #adadad;
+}
+
+
+
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:hover,
+.dropdown-menu > .active > a:focus {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #004d36;
+  outline: 0;
+}
+
+
+.Left-Image{
+    display:inline-block;
+    float:left;
+    margin-left:1%;
+    color:red;
+    font-family:'Li';
+    font-size:medium;
+    word-wrap:break-word;
+    text-wrap:normal;
+    
+}

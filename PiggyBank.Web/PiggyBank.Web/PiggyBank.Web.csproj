@@ -163,6 +163,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ChildController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MobileController.cs" />
     <Compile Include="DatabaseHelper\DatabaseHelper.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -179,11 +180,22 @@
     <Compile Include="Migrations\201607151300582_Transactions.Designer.cs">
       <DependentUpon>201607151300582_Transactions.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607151813385_ChildPhoneNumber.cs" />
+    <Compile Include="Migrations\201607151813385_ChildPhoneNumber.Designer.cs">
+      <DependentUpon>201607151813385_ChildPhoneNumber.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607151829297_Settings.cs" />
+    <Compile Include="Migrations\201607151829297_Settings.Designer.cs">
+      <DependentUpon>201607151829297_Settings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Child.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\OTPModel.cs" />
     <Compile Include="Models\PaymentModel.cs" />
+    <Compile Include="Models\SendSMS.cs" />
+    <Compile Include="Models\Settings.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -191,12 +203,14 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\mascot2.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Properties\PublishProfiles\PiggyBank.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -239,9 +253,12 @@
     <Content Include="Views\Child\AddChild.cshtml" />
     <Content Include="Views\Child\EditChild.cshtml" />
     <Content Include="Views\Child\PayChild.cshtml" />
+    <Content Include="Views\Child\History.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Mobiler\" />
+    <Folder Include="Views\Mobile\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -259,6 +276,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607151300582_Transactions.resx">
       <DependentUpon>201607151300582_Transactions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607151813385_ChildPhoneNumber.resx">
+      <DependentUpon>201607151813385_ChildPhoneNumber.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607151829297_Settings.resx">
+      <DependentUpon>201607151829297_Settings.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
