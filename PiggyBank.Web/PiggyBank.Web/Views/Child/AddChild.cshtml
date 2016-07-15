@@ -1,0 +1,84 @@
+﻿@model PiggyBank.Web.Models.Child
+
+<div class="popup" id="AddChildPopup">
+
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>Add Child</h4>
+            <hr />
+            @Html.ValidationSummary(true)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, new { @class = "control-label col-lg-3" })
+                <div class="col-lg-9">
+                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Name)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.MainBalance, new { @class = "control-label col-lg-3" })
+                <div class="col-lg-9">
+                    @Html.TextBoxFor(model => model.MainBalance, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.MainBalance)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.SavingsBalance, new { @class = "control-label col-lg-3" })
+                <div class="col-lg-9">
+                    @Html.TextBoxFor(model => model.SavingsBalance, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SavingsBalance)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.PercentToSave, new { @class = "control-label col-lg-3" })
+                <div class="col-lg-9">
+                    @Html.TextBoxFor(model => model.PercentToSave, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PercentToSave)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.PocketMoney, new { @class = "control-label col-lg-3" })
+                <div class="col-lg-9">
+                    @Html.TextBoxFor(model => model.PocketMoney, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PocketMoney)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.PaymentInterval, new { @class = "control-label col-lg-3" })
+                <div class="col-lg-9">
+                    @Html.DropDownListFor(model => model.PaymentInterval, new SelectList(ViewBag.PaymentIntervals), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PaymentInterval)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-lg-offset-3 col-lg-9">
+                    <input type="submit" value="Create" class="btn btn-default" /> <input type="button" value="Cancel" class="btn btn-warning" onclick="HidePopup()" />
+
+                </div>
+            </div>
+        </div>
+    }
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+
+
+    <script>
+        function HidePopup()
+        {
+            $("#AddChildPopup").toggle();
+
+        }
+    </script>
+</div>

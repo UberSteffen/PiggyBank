@@ -1,0 +1,106 @@
+﻿@model IEnumerable<PiggyBank.Web.Models.Child>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>My Children</h2> <p class="text-success">@ViewBag.StatusMessage</p>
+
+
+<p>
+
+    @Ajax.ActionLink("Add Child", "AddChild", null, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "ReloadValidation()", UpdateTargetId = "pophere" }, new { @class = "btn btn-primary" })
+</p>
+
+@{
+    if (Model.Count() <= 0)
+    {
+        <p>No children added yet. @Html.ActionLink("Add Child", "AddChild", null, null)</p>
+    }
+
+    else
+    {
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MainBalance)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SavingsBalance)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PercentToSave)
+                </th>
+                <th>Active</th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MainBalance)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SavingsBalance)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PercentToSave)%
+                    </td>
+
+                    <td>
+                        @{
+                            if(item.Activated)
+                            {
+                                <span class="text-success">Active</span>
+                            }
+
+                            else
+                            {
+                                <span class="text-danger">Inactive</span>
+
+                            }
+                        }
+                    </td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                Actions
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>@Ajax.ActionLink("Edit", "EditChild", new { id = item.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "ReloadValidation()", UpdateTargetId = "pophere" })</li>
+                                <li>@Ajax.ActionLink("Pay", "PayChild", new { id = item.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "ReloadValidation()", UpdateTargetId = "pophere" })</li>
+                                @*<li>@Html.ActionLink("Details", "Details", new { id = item.Id }) </li>*@
+                                <li>@Html.ActionLink("Delete", "DeleteChild", new { id = item.Id }, new { @onclick = "return confirm('Are you sure you wish to delete this account?');" })</li>
+                            </ul>
+                        </div>
+                       
+                    </td>
+                </tr>
+            }
+
+        </table>
+    }
+}
+
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/jquery.unobtrusive.js")
+    <script>
+        function ReloadValidation() {
+            $("form").removeData("validator");
+            $("form").removeData("unobtrusiveValidation");
+            $.validator.unobtrusive.parse("form");
+        }
+
+    </script>
+}
+<div id="pophere"></div>
