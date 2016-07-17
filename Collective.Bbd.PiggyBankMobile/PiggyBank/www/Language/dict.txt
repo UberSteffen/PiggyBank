@@ -6,3 +6,4 @@ Id,Eng,Afr,Zul
 5,"Rewards","Belonings","Imivuzo"
 6,"Enter your One-Time Pin","Gee jou eenmalige Pinkode","Faka yakho Pin-isikhathi esisodwa"
 7,"Piggy Bank","Spaarvarkie","Isketekete"
+8,"Settings","Instellings","Izilungiselelo"
