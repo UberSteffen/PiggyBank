@@ -5,7 +5,7 @@ body {
     background-color:#32383d;
     font-family: 'RobotoRegular', 'Droid Sans', 'Segoe UI', Segoe, 'San Francisco', 'Helvetica Neue', Helvetica, Arial, Geneva, sans-serif;
     font-size:12px;
-    background-image:url("../images/main2.png");
+    background:url("../images/main2.png") no-repeat center center fixed;
     background-size:cover;
     background-position:center;
     background-repeat:no-repeat;
