@@ -4,4 +4,6 @@
 // and then run "window.location.reload()" in the JavaScript Console.
 (function () {
     "use strict";
+
+    document.addEventListener("deviceready", load, false);
 } )();

@@ -18,28 +18,28 @@
     <table align="center">
         <tr>
             <td style="align-content:center">
-                <img src="images/mascot3ENG.png" style="width:200px;height:200px;align-self:center;left:40px" />
+                <img id="mascotimg" src="images/mascot3ENG.png" style="width:200px;height:200px;align-self:center;left:40px" />
             </td>
         </tr>
         <tr>
             <td>
-                <p style="font-weight:bold;" foreground="white">Enter One Time PIN</p>
+                <p id="otptext" style="font-weight:bold;" foreground="white"></p>
             </td>
         </tr>
         <tr>
             <td>
-                <input type="text" pattern="[0-9]*/>
+                <input type="text" pattern="[0-9]*"/>
             </td>
         </tr>
         <tr>
             <td>
-                <p class="woodbutton"><br /><a href="menu.html">Submit</a></p>
+                <button id="submitClick"></button>
             </td>
         </tr>
     </table>
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="scripts/platformOverrides.js"></script>
-    <script type="text/javascript" src="scripts/common.js"></script>
+    <script type="text/javascript" src="scripts/otp.js"></script>
 
 </body>
 </html>

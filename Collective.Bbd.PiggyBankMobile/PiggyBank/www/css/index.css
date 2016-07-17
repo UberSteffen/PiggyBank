@@ -22,6 +22,20 @@ body {
     align-self:center;
 }
 
+button {
+  background: url(../images/woodbutton.png) no-repeat center;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  /* put the height and width of your image here */
+  height: 50px;
+  width: 200px;
+  border: none;
+  font-weight: bold;
+}
+
+button span {
+  display: none;
+}
 
 @keyframes fade {
     from { opacity: 1.0; }
