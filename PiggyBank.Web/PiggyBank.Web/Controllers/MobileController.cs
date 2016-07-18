@@ -1,59 +1,117 @@
 ﻿using PiggyBank.Web.DatabaseHelper;
 using PiggyBank.Web.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace PiggyBank.Web.Controllers
 {
     [AllowAnonymous]
     public class MobileController : Controller
     {
+        public class JsonpResult : JsonResult
+        {
+            object data = null;
+
+            public JsonpResult()
+            {
+            }
+
+            public JsonpResult(object data)
+            {
+                this.data = data;
+            }
+
+            public override void ExecuteResult(ControllerContext controllerContext)
+            {
+                if (controllerContext != null)
+                {
+                    HttpResponseBase Response = controllerContext.HttpContext.Response;
+                    HttpRequestBase Request = controllerContext.HttpContext.Request;
+
+                    string callbackfunction = Request["callback"];
+                    if (string.IsNullOrEmpty(callbackfunction))
+                    {
+                        throw new Exception("Callback function name must be provided in the request!");
+                    }
+                    Response.ContentType = "application/x-javascript";
+                    if (data != null)
+                    {
+                        JavaScriptSerializer serializer = new JavaScriptSerializer();
+                        Response.Write(string.Format("{0}({1});", callbackfunction, serializer.Serialize(data)));
+                    }
+                }
+            }
+        }
         DatabaseHelper.DatabaseHelper dbhelper = new DatabaseHelper.DatabaseHelper();
         [HttpGet]
-       public ActionResult OTP(int id)
+        public JsonpResult OTP(int id)
         {
-           //get child based off one time pin
+            //get child based off one time pin
 
             int childId = dbhelper.AuthenticateChild(id);
-            return Json(new { id = childId }, JsonRequestBehavior.AllowGet);
+            return new JsonpResult(new { id = childId });
         }
 
         [HttpGet]
-        public ActionResult Details(int id)
+        public JsonpResult Details(int id)
         {
             var child = dbhelper.GetChild(id);
-            return Json(child, JsonRequestBehavior.AllowGet);
+            return new JsonpResult(child);
         }
 
 
-        public ActionResult RequestCash(WithdrawlRequest model)
+        public JsonpResult Withdraw(int id, int amount)
         {
-            if(model.FromSavings)
+            var model = new WithdrawlRequest()
             {
-                dbhelper.FutureTranser(model);
-                return Json(new { result = WorkStatus.Success.ToString() }, JsonRequestBehavior.AllowGet);
+                ChildId = id,
+                Amount = amount,
+                FromSavings = false,
+            };
 
-            }
             bool success = dbhelper.AddRequest(model);
             if (success)
             {
-                return Json(new { result = WorkStatus.Success.ToString() }, JsonRequestBehavior.AllowGet);
+                return new JsonpResult(new { result = WorkStatus.Success.ToString() });
             }
-            return Json(new { result = WorkStatus.Failed.ToString() } , JsonRequestBehavior.AllowGet);
+            return new JsonpResult(new { result = WorkStatus.Failed.ToString() });
+
+        }
+
+        public JsonpResult Transfer(int id, int amount)
+        {
+            try
+            {
+                var model = new WithdrawlRequest()
+                {
+                    ChildId = id,
+                    Amount = amount,
+                    FromSavings = false,
+                };
+
+                dbhelper.FutureTranser(model);
+                return new JsonpResult(new { result = WorkStatus.Success.ToString() });
+            }
+
+            catch
+            {
+                return new JsonpResult(new { result = WorkStatus.Failed.ToString() });
+            }
 
         }
 
 
-       protected override void Dispose(bool disposing)
-       {
-           if(disposing)
-           {
-               dbhelper.Dispose();
-           }
-           base.Dispose(disposing);
-       }
-	}
+
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                dbhelper.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+    }
 }

@@ -111,4 +111,5 @@
   <preference name="android-minSdkVersion" value="14" />
   <preference name="android-maxSdkVersion" value="6" />
   <preference name="android-targetSdkVersion" value="5" />
+  <plugin name="cordova-plugin-file" version="4.1.1" />
 </widget>

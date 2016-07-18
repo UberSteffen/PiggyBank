@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace PiggyBank.Web.DatabaseHelper
 {
@@ -107,7 +106,7 @@ namespace PiggyBank.Web.DatabaseHelper
                 var childToPay = db.Children.Find(model.ChildId);
 
                 double moneyToSave = childToPay.PercentToSave / 100 * model.Amount;
-                switch(model.PaymentMethod)
+                switch (model.PaymentMethod)
                 {
                     case "Pocket": childToPay.MainBalance += model.Amount;
                         AddTransaction(childToPay.ParentId, childToPay.Id, model.Amount, 0, model.Amount, TransactionTypes.Deposit);
@@ -128,9 +127,9 @@ namespace PiggyBank.Web.DatabaseHelper
                 db.Entry(childToPay).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
 
-             
 
-             
+
+
 
 
 
@@ -155,7 +154,7 @@ namespace PiggyBank.Web.DatabaseHelper
                 {
                     db.Entry(childToDelete).State = System.Data.Entity.EntityState.Deleted;
                     db.SaveChanges();
-                    AddTransaction(parentId, id, 0,0,0 ,TransactionTypes.DeleteChild);
+                    AddTransaction(parentId, id, 0, 0, 0, TransactionTypes.DeleteChild);
                 }
 
                 return false;
@@ -323,7 +322,7 @@ namespace PiggyBank.Web.DatabaseHelper
         {
             try
             {
-                var requestsFromChild = db.Requests.Where(x => x.ChildId == childId ).ToList();
+                var requestsFromChild = db.Requests.Where(x => x.ChildId == childId).ToList();
                 if (requestsFromChild != null && requestsFromChild.Count() > 0)
                 {
                     return false;
@@ -374,7 +373,7 @@ namespace PiggyBank.Web.DatabaseHelper
                 return count;
             }
 
-         
+
         }
 
         public WorkStatus HandleRequest(int childId, string parentId, string action)
@@ -391,7 +390,7 @@ namespace PiggyBank.Web.DatabaseHelper
 
                 switch (action)
                 {
-                    case "approve": ApproveRequest(parentId,requestToHandel); return WorkStatus.Approved;
+                    case "approve": ApproveRequest(parentId, requestToHandel); return WorkStatus.Approved;
                     case "deny": DenyRequest(requestToHandel); return WorkStatus.Denied;
                     default: return WorkStatus.Failed;
                 }
@@ -406,12 +405,17 @@ namespace PiggyBank.Web.DatabaseHelper
         public void FutureTranser(WithdrawlRequest requestToHandel)
         {
             var child = GetChild(requestToHandel.ChildId);
-            AddTransaction(child.ParentId, child.Id, requestToHandel.Amount,-requestToHandel.Amount, requestToHandel.Amount, TransactionTypes.NoticePeriodTransfer);
+            AddTransaction(child.ParentId, child.Id, requestToHandel.Amount, -requestToHandel.Amount, requestToHandel.Amount, TransactionTypes.NoticePeriodTransfer);
         }
 
-        private void ApproveRequest(string parentId,WithdrawlRequest model)
+        private void ApproveRequest(string parentId, WithdrawlRequest model)
         {
-            AddTransaction(parentId, model.ChildId, -model.Amount,0,-model.Amount,  TransactionTypes.Withdrawl);
+            var childToUpdate = GetChild(model.ChildId);
+            childToUpdate.MainBalance -= model.Amount;
+
+            db.Entry(childToUpdate).State = System.Data.Entity.EntityState.Modified;
+            db.SaveChanges();
+            AddTransaction(parentId, model.ChildId, -model.Amount, 0, -model.Amount, TransactionTypes.Withdrawl);
             DeleteRequest(model);
 
         }

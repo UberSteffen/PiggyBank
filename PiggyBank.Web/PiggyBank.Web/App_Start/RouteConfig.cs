@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace PiggyBank.Web
@@ -12,6 +8,12 @@ namespace PiggyBank.Web
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+            routes.MapRoute(
+                       name: "Amount",
+                       url: "{controller}/{action}/{id}/{amount}",
+                       defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional, amount = UrlParameter.Optional }
+                   );
             routes.MapRoute(
               name: "Tasked",
               url: "{controller}/{action}/{id}/{task}",
