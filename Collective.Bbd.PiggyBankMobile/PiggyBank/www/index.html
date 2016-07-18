@@ -2,8 +2,6 @@
 <html>
 <head>
 
-   <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
- 
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
@@ -16,23 +14,23 @@
 	                <img id="MainLogo" src="images/mascot3ENG.png" style="width:200px;height:200px;align-self:center;left:40px; position:center"/>
 
 </div>
-<div id="LangaugeMenu">
+<div id="LangaugeMenu" style="display:none;">
 
     <table align="center">
    
         <tr>
             <td>
-                <p class="woodbutton"><br /><span onclick="ChooseLanguage('ENG');showContentClick(this)" data-hide="LangaugeMenu" data-show="OTP">English</span></p>
+                <p class="woodbutton" onclick="ChooseLanguage('English');showContentClick(this)" data-hide="LangaugeMenu" data-show="OTP"><br /><span >English</span></p>
             </td>
         </tr>
         <tr>
             <td>
-                <p class="woodbutton"><br /><span onclick="ChooseLanguage('AFR');showContentClick(this)" data-hide="LangaugeMenu" data-show="OTP">Afrikaans</span></p>
+                <p class="woodbutton"  onclick="ChooseLanguage('Afrikaans');showContentClick(this)" data-hide="LangaugeMenu" data-show="OTP"><br /><span>Afrikaans</span></p>
             </td>
         </tr>
         <tr>
             <td>
-                <p class="woodbutton"><br /><span onclick="ChooseLanguage('ZUL');showContentClick(this)" data-hide="LangaugeMenu" data-show="OTP">isiZulu</span></p>
+                <p class="woodbutton" onclick="ChooseLanguage('isiZulu');showContentClick(this)" data-hide="LangaugeMenu" data-show="OTP"><br /><span >isiZulu</span></p>
             </td>
         </tr>
     </table>
@@ -47,7 +45,7 @@
         </tr>
         <tr>
             <td>
-                <p class="woodbutton"><br /><span class="btnSubmit" onclick="DoOTP(this);" data-hide="OTP" data-show="MainMenu">Submit</span></p>
+                <p class="woodbutton" onclick="DoOTP(this);" data-hide="OTP" data-show="MainMenu"><br /><span class="btnSubmit">Submit</span></p>
             </td>
         </tr>
     </table>
@@ -57,16 +55,16 @@
 <table align="center" class="horizontal-table">
         <tr>
             <td>
-                <p class="woodbutton"><br /><span id="btnMyPocket" onclick="showContentClick(this)" data-hide="MainMenu" data-show="MyPocketPage">My Pocket</span></p>
+                <p class="woodbutton" onclick="showContentClick(this)" data-hide="MainMenu" data-show="MyPocketPage"><br /><span id="btnMyPocket">My Pocket</span></p>
             </td>
             <td>
-                <p class="woodbutton"><br /><span id="btnWithdraw" onclick="showContentClick(this)" data-hide="MainMenu" data-show="WithdrawPage">Withdraw</span></p>
+                <p class="woodbutton" onclick="showContentClick(this)" data-hide="MainMenu" data-show="WithdrawPage"><br /><span id="btnWithdraw">Withdraw</span></p>
             </td>
         </tr>
         <tr>
           <tr>
             <td>
-                <p class="woodbutton"><br /><span id="btnTransfer" onclick="DoTransfer(this)" data-hide="MainMenu" data-show="TransferPage">Transfer</span></p>
+                <p class="woodbutton" onclick="showContentClick(this)" data-hide="MainMenu" data-show="TransferPage"><br /><span id="btnTransfer">Transfer</span></p>
             </td>
               <td>
                 <p class="woodbutton"><br /><span id="btnGoals">Goals</span></p>
@@ -79,7 +77,7 @@
                 <p class="woodbutton"><br /><span id="btnRewards">Rewards</span></p>
             </td>
 			 <td>
-                <p class="woodbutton"><br /><span id="btnSettings">Settings</span></p>
+                <p class="woodbutton"><br /><span id="btnSettings" onclick='ClearChild();showContentClick(this)'" data-hide="MainMenu" data-show="LangaugeMenu">Clear<br/>Settings</span></p>
             </td>
         </tr>
     </table>
@@ -98,7 +96,7 @@
 		</tr>
         <tr>
             <td colspan="2">
-                <p class="woodbutton"><br /><span class="btnBack" onclick="showContentClick(this)" data-hide="MyPocketPage" data-show="MainMenu">Back</span></p>
+                <p class="woodbutton" onclick="showContentClick(this)" data-hide="MyPocketPage" data-show="MainMenu"><br /><span class="btnBack">Back</span></p>
             </td>
         </tr>
     </table>
@@ -109,17 +107,17 @@
     <table align="center">
         <tr>
             <td style="text-align:center;align-self:center;">
-            <input type="text" id="TXTWithdrawAmount"  onkeypress='return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 0 '  placeholder="Enter Amount"/>
+            <input type="text" id="TXTTransferAmount"  onkeypress='return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 0 '  placeholder="Enter Amount"/>
             </td>
         </tr>
         <tr>
             <td>
-                <p class="woodbutton"><br /><span class="btnSubmit" onclick="DoWithdrawl(this);" data-hide="TransferPage" data-show="MainMenu">Submit</span></p>
+                <p class="woodbutton" onclick="DoTransfer(this);" data-hide="TransferPage" data-show="MainMenu"><br /><span class="btnSubmit" >Submit</span></p>
             </td>
         </tr>
 		 <tr>
             <td colspan="2">
-                <p class="woodbutton"><br /><span class="btnBack" onclick="showContentClick(this)" data-hide="TransferPage" data-show="MainMenu">Back</span></p>
+                <p class="woodbutton" onclick="showContentClick(this)" data-hide="TransferPage" data-show="MainMenu"><br /><span class="btnBack">Back</span></p>
             </td>
         </tr>
     </table>
@@ -134,12 +132,12 @@
         </tr>
         <tr>
             <td>
-                <p class="woodbutton"><br /><span class="btnSubmit" onclick="DoWithdrawl(this);" data-hide="WithdrawPage" data-show="MainMenu">Submit</span></p>
+                <p class="woodbutton" onclick="DoWithdrawl(this);" data-hide="WithdrawPage" data-show="MainMenu"><br /><span class="btnSubmit"  >Submit</span></p>
             </td>
         </tr>
 		 <tr>
             <td colspan="2">
-                <p class="woodbutton"><br /><span class="btnBack" onclick="showContentClick(this)" data-hide="WithdrawPage" data-show="MainMenu">Back</span></p>
+                <p class="woodbutton" onclick="showContentClick(this)" data-hide="WithdrawPage" data-show="MainMenu"><br /><span class="btnBack" >Back</span></p>
             </td>
         </tr>
     </table>
@@ -153,9 +151,10 @@
 <script type="text/javascript">
 	var otp=1234;
 	var language = 'ENG';
-	var childId =4;
-	var savingsBalance = 0.00;
-	var pocketBalance = 0.00;
+	var childId =-1;
+	var savingsBalance = null;
+	var pocketBalance = null;
+	var exceedText = "Exceeded Limit";
 	function showContentClick(elem)
 {
 		var elementsToHide = $(elem).data("hide").split(',');
@@ -177,113 +176,201 @@
 	{
 		switch(lang)
 		{
-			case "ENG":SaveLanguage("English");MakeEnglish();break;
-			case "AFR":SaveLanguage("Afrikaans");MakeAfrikaans();break;
-			case"ZUL":SaveLanguage("isiZulu");MakeZulu();break;
+			case "English":SaveLanguage("English");MakeEnglish();break;
+			case "Afrikaans":SaveLanguage("Afrikaans");MakeAfrikaans();break;
+			case"isiZulu":SaveLanguage("isiZulu");MakeZulu();break;
 		}
 	}
 	
 	
 	$(document).ready(function(){
-	
+	GetChildData();
 	ChooseLanguage(language);
 	});
 	
 	function SaveLanguage(lang)
 	{
 		language = lang;
+		SetData('language',language);
 	//save here
 	}
 	
+		function OTPCALLBACK(data)
+	{	
+			childId = data.id;
+			GetChild(data.id);	
+	}
 	
 	function DoOTP(elem)
 	{
 	//do server call
 	otp = $('#TXTOTP').val();
 	  jQuery.ajax({
-                type: 'POST',
-                url: "http://localhost:80/Mobile/OTP/" + otp,
-                contentType: "application/json; charset=utf-8",
-				success:function(data){
-				alert(data)
-				childId = data.id;
-				alert('ChildId:' + childId)
-				showContentClick(elem);
+                type: 'GET',
+                url: "http://localhost:80/Mobile/OTP/" + otp + "?callback=?",
+				jsonpCallback:'OTPCALLBACK',
+				dataType:'jsonp',
+				success:function(data)
+				{
 				
+				if(childId != -1)
+					{
+					$('#TXTOTP').val('');
+					showContentClick(elem);
+					}
+					
+					else{
+					$('#TXTOTP').val('');
+					}
 				}
         });
-	
+	$('#TXTOTP').val('');
 	
 	}
 	
+
 	function DoWithdrawl(elem)
 	{
 		var amount = $('#TXTWithdrawAmount').val();
+			alert(amount);
+		if(amount > parseFloat(pocketBalance))
+		{
+			alert(exceedText + "! " + pocketBalance );
+			$('#TXTWithdrawAmount').text('');
+		}
+		
+		else{
 		alert('Withdrawing ' + amount)
             var withdrawl = { "ChildId": childId, "Amount": amount, "TmStamp": "\/Date(1468618264031)\/","FromSavings":"false" }
             jQuery.ajax({
-                type: 'POST',
-                url: "http://localhost:80/Mobile/RequestCash",
-                contentType: "application/json; charset=utf-8",
-				datatype: 'json',
+                type: 'GET',
+                url: "http://localhost:80/Mobile/RequestCash?callback=?",
+				dataType: 'jsonp',
+				crossDomain: true,
 				data: JSON.stringify(withdrawl),
+				jsonpCallback:'WithdrawCALLBACK',	
 				success:function(data)
 				{
-					alert('did withdrawl')
-					showContentClick(elem)
+					alert(data.result)
+					showContentClick(elem);
 				}
+			
         });
+	}
 		
-		
+	}
+	
+	
+	function WithdrawCALLBACK(data)
+	{
+			alert('did withdrawl')
+			
+	}
+	
+	
+	function ClearChild()
+	{
+		localStorage.clear();
 	}
 	
 	function GetChild(id)
 	{
 	var result = null;
 		 jQuery.ajax({
-                type: 'POST',
-                url: "http://localhost:80/Mobile/Details/" + id,
-                contentType: "application/json; charset=utf-8",
-				success:function(data)
-				{
-					alert('got child')
-					
-				}
+                type: 'GET',
+                url: "http://localhost:80/Mobile/Details/" + id + "?callback=?",
+				jsonpCallback: 'GETCHILDBACK',
+				dataType:'jsonp',
+				crossDomain: true,
         });
 	}
 	
+	
+	function GETCHILDBACK(data)
+{
+		pocketBalance = data.MainBalance;
+		savingsBalance = data.SavingsBalance;
+		$('#PocketValue').text(pocketBalance);
+		$('#SavingsValue').text(savingsBalance);
+		SaveChild();
+		
+}	
+
+function SaveChild()
+{
+	
+	SetData('ChildId',childId);
+	SetData('PocketValue',pocketBalance);
+	SetData('SavingsValue',savingsBalance);
+}
+
+function GetChildData()
+{
+	var id= GetData('ChildId');
+	
+	if(id == null || id ==-1)
+	{
+		$('#LangaugeMenu').show();
+	}
+	
+	else{
+	language = GetData('language');
+	ChooseLanguage(language);
+	$('#MainMenu').show();
+	GetChild(id);
+	$('#PocketValue').text(pocketBalance);
+	$('#SavingsValue').text(savingsBalance);
+	}
+}
+
 		function DoTransfer(elem)
 	{
-	var amount = $('#TXTTransferAmount').val();
+			var amount = $('#TXTTransferAmount').val();
+			alert(amount);
+			if(amount > parseFloat(savingsBalance))
+		{
+			alert(exceedText + "! " + savingsBalance );
+			$('#TXTTransferAmount').text('');
+		}
+		
+		else{
+		
             var withdrawl = { "ChildId": childId, "Amount": amount, "TmStamp": "\/Date(1468618264031)\/","FromSavings":"true" }
             jQuery.ajax({
                 type: 'POST',
-                url: "http://localhost:80/Mobile/RequestCash",
-                contentType: "application/json; charset=utf-8",
-            datatype: 'json',
-            data: JSON.stringify(withdrawl),
-			success:function()
+                url: "http://localhost:80/Mobile/RequestCash?callback=?",
+                crossDomain: true,
+				dataType: 'jsonp',
+				jsonpCallback:'TransferCallback',
+				data: JSON.stringify(withdrawl),
+				success:function(data)
 				{
-					alert('did transfer')
-					showContentClick(elem)
+					alert(data.result)
+					showContentClick(elem);
 				}
           
         });
-			
+	}
 
 	}
 	
+	function TransferCallback(data)
+	{
+		alert('did transfer')
+			
+	}
 	
 	function SetData(key,value)
-	{
-	localStorage.setItem("C", JSON.stringify({ key: 'value' }, null, '\t'));
+    {
+        localStorage.setItem(key, value);
+    }
 
-        //var data = localStorage.getItem('childId');
-        //alert(data);
-        //if (data) {
-        //    data = JSON.parse(data);
-        //}}
-	}
+    function GetData(key)
+    {
+        return localStorage.getItem(key)
+    }
+	
+	
 	function MakeEnglish()
 	{
 		var logoPath ="images/mascot3ENG.png";
@@ -294,10 +381,12 @@
 		$('#btnWithdraw').text('Withdraw');
 		$('#btnGoals').text('Goals');
 		$('#btnRewards').text('Rewards');
-		$('#btnSettings').text('Settings');
+		$('#btnSettings').html('Clear<br/>Settings');
 		$('#TXTWithdrawAmount').attr('placeholder','Enter Amount Required');
 		$('#TXTTransferAmount').attr('placeholder','Enter Amount To Transfer');
-
+		exceedText="Exceeded Limit";
+		$('.btnBack').text('Back');
+		$('#btnTransfer').text('Transfer');
 
 	}
 	
@@ -311,8 +400,11 @@
 		$('#btnWithdraw').text('Onttrekking');
 		$('#btnGoals').text('Doelwitte');
 		$('#btnRewards').text('Belonings');
-		$('#btnSettings').text('Instellings');
+		$('#btnSettings').html('Herstel<br/>Instellings');
 		$('#TXTWithdrawAmount').attr('placeholder','Hoveel geld will jy ontrek?');
+		exceedText="Onvoldoende fondse";
+		$('.btnBack').text('Terug');
+		$('#btnTransfer').text('Oordrag');
 
 
 	}
@@ -327,10 +419,12 @@
 		$('#btnWithdraw').text('Ukuhoxiswa');
 		$('#btnGoals').text('Imigomo');
 		$('#btnRewards').text('Imivuzo');
-		$('#btnSettings').text('Izilungiselelo');
+		$('#btnSettings').html('Buyisela<br/>amasethingi');
 		$('#TXTWithdrawAmount').attr('placeholder','Faka lemali edingekayo.');
+		exceedText="imali enganele";	
+		$('.btnBack').text('Emuva');
+		$('#btnTransfer').text('Ukudlulisa');
 
-		
 	}
 	
 
