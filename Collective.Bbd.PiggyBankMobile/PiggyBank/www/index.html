@@ -241,38 +241,38 @@
 	function DoWithdrawl(elem)
 	{
 		var amount = $('#TXTWithdrawAmount').val();
-			alert(amount);
+		
 		if(amount > parseFloat(pocketBalance))
 		{
 			alert(exceedText + "! " + pocketBalance );
-			$('#TXTWithdrawAmount').text('');
+			$('#TXTWithdrawAmount').val('');
 		}
 		
 		else{
-		alert('Withdrawing ' + amount)
-            var withdrawl = { "ChildId": childId, "Amount": amount, "TmStamp": "\/Date(1468618264031)\/","FromSavings":"false" }
+	
+        
             jQuery.ajax({
                 type: 'GET',
                 url: "http://localhost:80/Mobile/Withdraw/"+ childId + "/"+amount  +"?callback=?",
 				dataType: 'jsonp',
 				crossDomain: true,
-				data: JSON.stringify(withdrawl),
+				
 				jsonpCallback:'WithdrawCALLBACK',	
 				success:function(data)
 				{
-					alert(data.result)
+					
 					showContentClick(elem);
 				}
 			
         });
 	}
-		
+		$('#TXTWithdrawAmount').val('');
 	}
 	
 	
 	function WithdrawCALLBACK(data)
 	{
-			alert('did withdrawl')
+		
 			
 	}
 	
@@ -335,7 +335,7 @@ function GetChildData()
 		function DoTransfer(elem)
 	{
 			var amount = $('#TXTTransferAmount').val();
-			alert(amount);
+			
 			if(amount > parseFloat(savingsBalance))
 		{
 			alert(exceedText + "! " + savingsBalance );
@@ -344,7 +344,7 @@ function GetChildData()
 		
 		else{
 		
-            var withdrawl = { "ChildId": childId, "Amount": amount, "TmStamp": "\/Date(1468618264031)\/","FromSavings":"true" }
+          
             jQuery.ajax({
                 type: 'GET',
                 url: "http://localhost:80/Mobile/Transfer/" + childId + "/"+amount  +"?callback=?",
@@ -353,18 +353,21 @@ function GetChildData()
 				jsonpCallback:'TransferCallback',
 				success:function(data)
 				{
-					alert(data.result)
+					
 					showContentClick(elem);
 				}
           
         });
+
 	}
+
+$('#TXTTransferAmount').val('');
 
 	}
 	
 	function TransferCallback(data)
 	{
-		alert('did transfer')
+		
 			
 	}
 	
