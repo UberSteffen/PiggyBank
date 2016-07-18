@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace PiggyBank.Web.Models
 {
@@ -36,7 +32,7 @@ namespace PiggyBank.Web.Models
         public double SavingsBalance { get; set; }
 
         [Required]
-        [Display(Name = "Percentage To Save")]
+        [Display(Name = "Interest on Savings")]
         [Range(0, 100, ErrorMessage = "Please enter valid percentage")]
         public double PercentToSave { get; set; }
 
