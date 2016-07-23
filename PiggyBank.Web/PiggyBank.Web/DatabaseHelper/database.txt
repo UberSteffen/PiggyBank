@@ -1,0 +1,4 @@
+URL: winsqls02.cpt.wa.co.za
+db: piggybank
+user: piggybank
+password: BBD@dmin1

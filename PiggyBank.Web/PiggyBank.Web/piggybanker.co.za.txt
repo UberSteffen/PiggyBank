@@ -1,0 +1,11 @@
+﻿Control Panel:
+URL: http://cp.cpt.wa.co.za
+Username: piggyba1
+Password: b1fTl233Sx
+
+FTP:
+URL: ftp://ftp.piggybanker.co.za
+Username: piggybank46629_ftp
+Password: BBD@dmin1
+
+
