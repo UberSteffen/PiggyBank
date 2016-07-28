@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <!--
+        Customize the content security policy in the meta tag below as needed. Add 'unsafe-inline' to default-src to enable inline JavaScript.
+        For details, see http://go.microsoft.com/fwlink/?LinkID=617521
+    -->
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: http://localhost:50311 https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
+        
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+        <link rel="stylesheet" type="text/css" href="css/index.css">
+        <title>Piggy Bank</title>
+    </head>
+    <body>
+
+        <div style="text-align:center;">
+            <img id="MainLogo" src="images/mascot3ENG.png" style="width:200px;height:200px;align-self:center;left:40px; position:center" />
+
+        </div>
+
+        <div id="LangaugeMenu" style="display:none;">
+
+            <table align="center">
+
+                <tr>
+                    <td>
+                        <p id="engSelect" class="woodbutton" data-hide="LangaugeMenu" data-show="OTP"><br /><span>English</span></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p id="afrSelect" class="woodbutton" data-hide="LangaugeMenu" data-show="OTP"><br /><span>Afrikaans</span></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p id="zuluSelect" class="woodbutton" data-hide="LangaugeMenu" data-show="OTP"><br /><span>isiZulu</span></p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="OTP" style="display:none;">
+            <table align="center">
+                <tr>
+                    <td style="text-align:center;align-self:center;">
+                        <input type="text" id="TXTOTP" name="TXTOTP" onkeypress='return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 0' maxlength="4" placeholder="Enter One-Time-Pin" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p id="otpSubmit" class="woodbutton" data-hide="OTP" data-show="MainMenu"><br /><span class="btnSubmit">Submit</span></p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="MainMenu" style="display:none;">
+            <table align="center" class="horizontal-table">
+                <tr>
+                    <td>
+                        <p id="myPocketSelect" class="woodbutton" data-hide="MainMenu" data-show="MyPocketPage"><br /><span id="btnMyPocket">My Pocket</span></p>
+                    </td>
+                    <td>
+                        <p id="withdrawSelect" class="woodbutton" data-hide="MainMenu" data-show="WithdrawPage"><br /><span id="btnWithdraw">Withdraw</span></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p id="transferSelect" class="woodbutton" data-hide="MainMenu" data-show="TransferPage"><br /><span id="btnTransfer">Transfer</span></p>
+                    </td>
+                    <td>
+                        <p class="woodbutton"><br /><span id="btnGoals">Goals</span></p>
+                    </td>
+                </tr>
+                <tr>
+
+                    <td>
+                        <p class="woodbutton"><br /><span id="btnRewards">Rewards</span></p>
+                    </td>
+                    <td>
+                        <p class="woodbutton"><br /><span id="btnSettings" data-hide="MainMenu" data-show="LangaugeMenu">Clear<br />Settings</span></p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="MyPocketPage" style="display:none;">
+
+            <table align="center" style="text-align:center;">
+                <tr>
+                    <th id="PocketHeader" style="padding-right:10px">Pocket</th>
+                    <th id="SavingsHeader" style="padding-left:10px">Savings</th>
+                </tr>
+                <tr>
+                    <td id="PocketValue" style="padding-right:10px">0.00</td>
+                    <td id="SavingsValue" style="padding-left:10px">0.00</td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <p id="settingsSelect" class="woodbutton" data-hide="MyPocketPage" data-show="MainMenu"><br /><span class="btnBack">Back</span></p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="TransferPage" style="display:none;">
+            <table align="center">
+                <tr>
+                    <td style="text-align:center;align-self:center;">
+                        <input type="text" id="TXTTransferAmount" onkeypress='return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 0 ' placeholder="Enter Amount" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p id="doTransferSelect" class="woodbutton" data-hide="TransferPage" data-show="MainMenu"><br /><span class="btnSubmit">Submit</span></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <p id="transferBackSelect" class="woodbutton" data-hide="TransferPage" data-show="MainMenu"><br /><span class="btnBack">Back</span></p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="WithdrawPage" style="display:none;">
+            <table align="center">
+                <tr>
+                    <td style="text-align:center;align-self:center;">
+                        <input type="text" id="TXTWithdrawAmount" onkeypress='return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 0 ' placeholder="Enter Amount" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p id="doWithdrawalSelect" class="woodbutton" data-hide="WithdrawPage" data-show="MainMenu"><br /><span class="btnSubmit">Submit</span></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <p id="withdrawBackSelect" class="woodbutton" data-hide="WithdrawPage" data-show="MainMenu"><br /><span class="btnBack">Back</span></p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="scripts/platformOverrides.js"></script>
+        <script type="text/javascript" src="scripts/jquery-3.0.0.min.js"></script>
+        <script type="text/javascript" src="scripts/index.js"></script>
+        <script type="text/javascript" src="scripts/navfuncs.js"></script>
+    </body>
+</html>
