@@ -1,12 +1,12 @@
 body{
-    background: url(../images/main2.png) no-repeat center center fixed;
+    background: url(../images/main2.png) no-repeat;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    background-position: center;
     font-family: 'RobotoRegular', 'Droid Sans', 'Segoe UI', Segoe, 'San Francisco', 'Helvetica Neue', Helvetica, Arial, Geneva, sans-serif;
     font-size:12px;
+    padding-top:20px;
 }
 
 input{
