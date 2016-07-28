@@ -14,6 +14,7 @@ namespace PiggyBank.Web.Models
         public double Amount { get; set; }
 
         [Display(Name="Payment")]
+        [Required(ErrorMessage="Please select a payment method.")]
         public string PaymentMethod { get; set; }
     }
 }

@@ -204,12 +204,18 @@
     <Compile Include="Migrations\201607152235029_TransactionsAdd.Designer.cs">
       <DependentUpon>201607152235029_TransactionsAdd.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607282015570_Rewards.cs" />
+    <Compile Include="Migrations\201607282015570_Rewards.Designer.cs">
+      <DependentUpon>201607282015570_Rewards.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Child.cs" />
+    <Compile Include="Models\DataItem.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\OTPModel.cs" />
     <Compile Include="Models\PaymentModel.cs" />
+    <Compile Include="Models\Reward.cs" />
     <Compile Include="Models\SendSMS.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Models\Transaction.cs" />
@@ -276,6 +282,9 @@
     <Content Include="Views\Child\PayChild.cshtml" />
     <Content Include="Views\Child\History.cshtml" />
     <Content Include="Views\Child\Requests.cshtml" />
+    <Content Include="Views\Shared\_NumberOfRequests.cshtml" />
+    <Content Include="Views\Child\Rewards.cshtml" />
+    <Content Include="Views\Child\AddReward.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -315,6 +324,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607152235029_TransactionsAdd.resx">
       <DependentUpon>201607152235029_TransactionsAdd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607282015570_Rewards.resx">
+      <DependentUpon>201607282015570_Rewards.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

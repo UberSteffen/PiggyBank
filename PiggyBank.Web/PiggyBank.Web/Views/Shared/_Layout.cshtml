@@ -24,8 +24,8 @@
                     @{
                         if(User.Identity.IsAuthenticated)
                         {
-                         <li>@Html.ActionLink("Requests", "Requests", "Child")</li>
-
+                         <li><a href="/Child/Requests">Requests @Html.Action("NumberItem", "Child", new { id = 1 })</a> </li>
+                         <li><a href="/Child/Rewards">Rewards @Html.Action("NumberItem", "Child", new { id = 2 })</a> </li>
                         }
                     }
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>

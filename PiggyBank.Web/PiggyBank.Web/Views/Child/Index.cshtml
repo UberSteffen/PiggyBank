@@ -81,6 +81,7 @@
                                 <li>@Ajax.ActionLink("Edit", "EditChild", new { id = item.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "ReloadValidation()", UpdateTargetId = "pophere" })</li>
                                 <li>@Ajax.ActionLink("Pay", "PayChild", new { id = item.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "ReloadValidation()", UpdateTargetId = "pophere" })</li>
                                 <li>@Html.ActionLink("Pocket Money", "DoPocketMoney", new { id = item.Id })</li>
+                                <li>@Ajax.ActionLink("Add Reward", "AddReward", new { id = item.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "ReloadValidation()", UpdateTargetId = "pophere" })</li>
                                 <li>@Html.ActionLink("Delete", "DeleteChild", new { id = item.Id }, new { @onclick = "return confirm('Are you sure you wish to delete this account?');" })</li>
                                 <li>@Html.ActionLink("History", "History", new { id = item.Id }, new { })</li>
                                 <li>@Html.ActionLink("Send OTP", "SendOTP", new { id = item.Id }, new { })</li>

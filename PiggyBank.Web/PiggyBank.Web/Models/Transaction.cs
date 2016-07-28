@@ -35,6 +35,7 @@ namespace PiggyBank.Web.Models
         Deposit,
         PocketMoney,
         DeleteChild,
-        NoticePeriodTransfer
+        NoticePeriodTransfer,
+        Reward
     }
 }

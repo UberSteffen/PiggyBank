@@ -216,7 +216,7 @@
 	otp = $('#TXTOTP').val();
 	  jQuery.ajax({
                 type: 'GET',
-                url: "http://localhost:80/Mobile/OTP/" + otp + "?callback=?",
+                url: "http://localhost:50311/Mobile/OTP/" + otp + "?callback=?",
 				jsonpCallback:'OTPCALLBACK',
 				dataType:'jsonp',
 				success:function(data)
@@ -253,7 +253,7 @@
         
             jQuery.ajax({
                 type: 'GET',
-                url: "http://localhost:80/Mobile/Withdraw/"+ childId + "/"+amount  +"?callback=?",
+                url: "http://localhost:50311/Mobile/Withdraw/"+ childId + "/"+amount  +"?callback=?",
 				dataType: 'jsonp',
 				crossDomain: true,
 				
@@ -287,7 +287,7 @@
 	var result = null;
 		 jQuery.ajax({
                 type: 'GET',
-                url: "http://localhost:80/Mobile/Details/" + id + "?callback=?",
+                url: "http://localhost:50311/Mobile/Details/" + id + "?callback=?",
 				jsonpCallback: 'GETCHILDBACK',
 				dataType:'jsonp',
 				crossDomain: true,
@@ -347,7 +347,7 @@ function GetChildData()
           
             jQuery.ajax({
                 type: 'GET',
-                url: "http://localhost:80/Mobile/Transfer/" + childId + "/"+amount  +"?callback=?",
+                url: "http://localhost:50311/Mobile/Transfer/" + childId + "/"+amount  +"?callback=?",
                 crossDomain: true,
 				dataType: 'jsonp',
 				jsonpCallback:'TransferCallback',

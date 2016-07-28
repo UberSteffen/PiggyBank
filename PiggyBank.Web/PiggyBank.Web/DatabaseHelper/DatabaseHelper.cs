@@ -98,6 +98,18 @@ namespace PiggyBank.Web.DatabaseHelper
             }
         }
 
+        public Child GetChildByName(string childName, string parentId)
+        {
+            try
+            {
+                return db.Children.Where(x => x.Name == childName && x.ParentId == parentId).FirstOrDefault();
+            }
+
+            catch
+            {
+                return new Child();
+            }
+        }
 
         public bool PayChild(PaymentModel model)
         {
@@ -126,12 +138,6 @@ namespace PiggyBank.Web.DatabaseHelper
 
                 db.Entry(childToPay).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
-
-
-
-
-
-
 
                 return true;
             }
@@ -442,6 +448,114 @@ namespace PiggyBank.Web.DatabaseHelper
 
         #endregion
 
+        #region Rewards
+
+        public List<Reward> GetRewardsForParent(string parentId)
+        {
+            List<Reward> parentChildsRewards = new List<Reward>();
+            try
+            {
+                foreach (var child in GetChildrenForParent(parentId))
+                {
+                    parentChildsRewards.AddRange(GetRewardsForChild(child.Id));
+                }
+                return parentChildsRewards;
+            }
+            catch (Exception)
+            {
+
+                return new List<Reward>();
+            }
+        }
+
+        public List<Reward> GetRewardsForChild(int childId)
+        {
+            try
+            {
+                var childsRewards = db.Rewards.Where(r => r.ChildId == childId).ToList();
+                return childsRewards;
+            }
+            catch (Exception)
+            {
+                return new List<Reward>();
+            }
+        }
+
+
+        public bool AddReward(Reward model, string parentId)
+        {
+            try
+            {
+
+                var child = GetChildByName(model.ChildFor, parentId);
+                model.ChildId = child.Id;
+
+
+                db.Rewards.Add(model);
+                db.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+
+        public WorkStatus HandleReward(int id, string parentId, string task)
+        {
+            try
+            {
+                var rewardToHandle = db.Rewards.Find(id);
+
+                if (string.IsNullOrEmpty(task) || rewardToHandle == null)
+                {
+                    return WorkStatus.Failed;
+                }
+
+
+                switch (task)
+                {
+                    case "approve": ApproveReward(parentId, rewardToHandle); return WorkStatus.Approved;
+                    case "deny": DenyReward(rewardToHandle); return WorkStatus.Denied;
+                    default: return WorkStatus.Failed;
+                }
+
+            }
+            catch (Exception)
+            {
+                return WorkStatus.Failed;
+            }
+        }
+
+        private void DenyReward(Reward model)
+        {
+            DeleteReward(model);
+        }
+
+        private void ApproveReward(string parentId, Reward model)
+        {
+            var childToUpdate = GetChild(model.ChildId);
+
+
+            double moneyToSavings = model.RewardAmount * (model.SplitPercentage / 100);
+
+            childToUpdate.MainBalance += model.RewardAmount - moneyToSavings;
+            childToUpdate.SavingsBalance += moneyToSavings;
+            db.Entry(childToUpdate).State = System.Data.Entity.EntityState.Modified;
+            db.SaveChanges();
+            AddTransaction(parentId, model.ChildId, model.RewardAmount, moneyToSavings, model.RewardAmount - moneyToSavings, TransactionTypes.Reward);
+            DeleteReward(model);
+        }
+
+        private void DeleteReward(Reward model)
+        {
+            db.Entry(model).State = System.Data.Entity.EntityState.Deleted;
+            db.SaveChanges();
+        }
+        #endregion
+
+
         public IEnumerable<Transaction> GetTransactionsForChild(int id)
         {
             try
@@ -485,6 +599,7 @@ namespace PiggyBank.Web.DatabaseHelper
                 return -1;
             }
         }
+
 
     }
 

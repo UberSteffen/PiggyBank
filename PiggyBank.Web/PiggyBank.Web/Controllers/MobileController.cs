@@ -64,25 +64,7 @@ namespace PiggyBank.Web.Controllers
 
         public JsonpResult Withdraw(int id, int amount)
         {
-            var model = new WithdrawlRequest()
-            {
-                ChildId = id,
-                Amount = amount,
-                FromSavings = false,
-            };
-
-            bool success = dbhelper.AddRequest(model);
-            if (success)
-            {
-                return new JsonpResult(new { result = WorkStatus.Success.ToString() });
-            }
-            return new JsonpResult(new { result = WorkStatus.Failed.ToString() });
-
-        }
-
-        public JsonpResult Transfer(int id, int amount)
-        {
-            try
+            if(id != -1)
             {
                 var model = new WithdrawlRequest()
                 {
@@ -91,8 +73,35 @@ namespace PiggyBank.Web.Controllers
                     FromSavings = false,
                 };
 
-                dbhelper.FutureTranser(model);
-                return new JsonpResult(new { result = WorkStatus.Success.ToString() });
+                bool success = dbhelper.AddRequest(model);
+                if (success)
+                {
+                    return new JsonpResult(new { result = WorkStatus.Success.ToString() });
+                }
+            }
+         
+            return new JsonpResult(new { result = WorkStatus.Failed.ToString() });
+
+        }
+
+        public JsonpResult Transfer(int id, int amount)
+        {
+            try
+            {
+                if (id != -1)
+                {
+                    var model = new WithdrawlRequest()
+                    {
+                        ChildId = id,
+                        Amount = amount,
+                        FromSavings = true,
+                    };
+
+                    dbhelper.FutureTranser(model);
+                    return new JsonpResult(new { result = WorkStatus.Success.ToString() });
+                }
+
+                return new JsonpResult(new { result = WorkStatus.Failed.ToString() });
             }
 
             catch

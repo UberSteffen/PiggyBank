@@ -1,0 +1,66 @@
+﻿@model PiggyBank.Web.Models.Reward
+
+<div class="popup" id="AddRewardPopup">
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>Add Reward</h4>
+            <hr />
+            @Html.ValidationSummary(true)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ChildFor, new { @class = "control-label col-lg-3" })
+                <div class="col-lg-9">
+                    @Html.DropDownListFor(model => model.ChildFor, new SelectList(ViewBag.ChildNames), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ChildFor)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("To Do", new { @class = "control-label col-lg-3" })
+                <div class="col-lg-9">
+                    @Html.TextBoxFor(model => model.TaskToDo, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.TaskToDo)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("Amount", new { @class = "control-label col-lg-3" })
+                <div class="col-lg-9">
+                    @Html.TextBoxFor(model => model.RewardAmount, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.RewardAmount)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("% To Savings", new { @class = "control-label col-lg-3" })
+                <div class="col-lg-9">
+                    @Html.TextBoxFor(model => model.SplitPercentage, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SplitPercentage)
+                </div>
+            </div>
+
+            @Html.HiddenFor(x => x.ChildId)
+
+            <div class="form-group">
+                <div class="col-lg-offset-3 col-lg-9">
+                    <input type="submit" value="Create" class="btn btn-default" /> <input type="button" value="Cancel" class="btn btn-warning" onclick="HidePopup()" />
+
+                </div>
+            </div>
+        </div>
+    }
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+
+
+
+    <script>
+        function HidePopup() {
+            $("#AddRewardPopup").toggle();
+
+        }
+    </script>
+}
