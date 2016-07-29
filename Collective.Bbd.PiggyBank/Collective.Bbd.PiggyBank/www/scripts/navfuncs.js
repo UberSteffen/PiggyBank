@@ -269,16 +269,25 @@ function MakeZulu() {
 
 }
 
-document.getElementById("engSelect").addEventListener("click", function () { ChooseLanguage('English'); navContentClick(document.getElementById("engSelect")); });
-document.getElementById("afrSelect").addEventListener("click", function () { ChooseLanguage('Afrikaans'); navContentClick(document.getElementById("afrSelect")); });
-document.getElementById("zuluSelect").addEventListener("click", function () { ChooseLanguage('isiZulu'); navContentClick(document.getElementById("zuluSelect")); });
-document.getElementById("otpSubmit").addEventListener("click", function () { DoOTP(document.getElementById("otpSubmit")); });
-document.getElementById("myPocketSelect").addEventListener("click", function () { DoMyPocket(); navContentClick(document.getElementById("myPocketSelect")); });
-document.getElementById("withdrawSelect").addEventListener("click", function () { navContentClick(document.getElementById("withdrawSelect")); });
-document.getElementById("transferSelect").addEventListener("click", function () { navContentClick(document.getElementById("transferSelect")); });
-document.getElementById("btnSettings").addEventListener("click", function () { ClearChild(); navContentClick(document.getElementById("btnSettings")); });
-document.getElementById("settingsSelect").addEventListener("click", function () { navContentClick(document.getElementById("settingsSelect")); });
-document.getElementById("doTransferSelect").addEventListener("click", function () { DoTransfer(document.getElementById("doTransferSelect")); });
-document.getElementById("transferBackSelect").addEventListener("click", function () { navContentClick(document.getElementById("transferBackSelect")); });
-document.getElementById("doWithdrawalSelect").addEventListener("click", function () { DoWithdrawl(document.getElementById("doWithdrawalSelect")); });
-document.getElementById("withdrawBackSelect").addEventListener("click", function () { navContentClick(document.getElementById("withdrawBackSelect")); });
+$("#engSelect").click(function () { ChooseLanguage('English'); navContentClick($("#engSelect")); });
+$("#afrSelect").click(function () { ChooseLanguage('Afrikaans'); navContentClick($("#afrSelect")); });
+$("#zuluSelect").click(function () { ChooseLanguage('isiZulu'); navContentClick($("#zuluSelect")); });
+
+$("#otpSubmit").click(function () { DoOTP($("#otpSubmit")); });
+
+$("#myPocketSelect").click(function () { DoMyPocket(); navContentClick($("#myPocketSelect")); });
+$("#pocketBackSelect").click(function () { navContentClick($("#pocketBackSelect")); });
+
+$("#withdrawSelect").click(function () { navContentClick($("#withdrawSelect")); });
+$("#doWithdrawalSelect").click(function () { DoWithdrawl($("#doWithdrawalSelect")); });
+$("#withdrawBackSelect").click(function () { navContentClick($("#withdrawBackSelect")); });
+
+$("#transferSelect").click(function () { navContentClick($("#transferSelect")); });
+$("#doTransferSelect").click(function () { DoTransfer($("#doTransferSelect")); });
+$("#transferBackSelect").click(function () { navContentClick($("#transferBackSelect")); });
+
+$("#btnSettings").click(function () { ClearChild(); navContentClick($("#btnSettings")); });
+
+$("#goalsSelect").click(function () { navContentClick($("#goalsSelect")); });
+$("#goalsBackSelect").click(function () { navContentClick($("#goalsBackSelect")); });
+
