@@ -78,7 +78,7 @@
                 <tr>
 
                     <td>
-                        <p class="woodbutton"><br /><span id="btnRewards">Rewards</span></p>
+                        <p id="rewardsSelect" class="woodbutton" data-hide="MainMenu" data-show="RewardsPage"><br /><span id="btnRewards">Rewards</span></p>
                     </td>
                     <td>
                         <p class="woodbutton"><br /><span id="btnSettings" data-hide="MainMenu" data-show="LangaugeMenu">Clear<br />Settings</span></p>
@@ -87,7 +87,7 @@
             </table>
         </div>
 
-        <div id="MyPocketPage" style="display:none;">
+        <div id="MyPocketPage" style="display:none;" data-back="true" data-backloc="MainMenu">
 
             <table align="center" style="text-align:center;">
                 <tr>
@@ -98,15 +98,10 @@
                     <td id="PocketValue" style="padding-right:10px">0.00</td>
                     <td id="SavingsValue" style="padding-left:10px">0.00</td>
                 </tr>
-                <tr>
-                    <td colspan="2">
-                        <p id="pocketBackSelect" class="woodbutton" data-hide="MyPocketPage" data-show="MainMenu"><br /><span class="btnBack">Back</span></p>
-                    </td>
-                </tr>
             </table>
         </div>
 
-        <div id="TransferPage" style="display:none;">
+        <div id="TransferPage" style="display:none;" data-back="true" data-backloc="MainMenu">
             <table align="center">
                 <tr>
                     <td style="text-align:center;align-self:center;">
@@ -118,15 +113,10 @@
                         <p id="doTransferSelect" class="woodbutton" data-hide="TransferPage" data-show="MainMenu"><br /><span class="btnSubmit">Submit</span></p>
                     </td>
                 </tr>
-                <tr>
-                    <td colspan="2">
-                        <p id="transferBackSelect" class="woodbutton" data-hide="TransferPage" data-show="MainMenu"><br /><span class="btnBack">Back</span></p>
-                    </td>
-                </tr>
             </table>
         </div>
 
-        <div id="WithdrawPage" style="display:none;">
+        <div id="WithdrawPage" style="display:none;" data-back="true" data-backloc="MainMenu">
             <table align="center">
                 <tr>
                     <td style="text-align:center;align-self:center;">
@@ -138,23 +128,22 @@
                         <p id="doWithdrawalSelect" class="woodbutton" data-hide="WithdrawPage" data-show="MainMenu"><br /><span class="btnSubmit">Submit</span></p>
                     </td>
                 </tr>
-                <tr>
-                    <td colspan="2">
-                        <p id="withdrawBackSelect" class="woodbutton" data-hide="WithdrawPage" data-show="MainMenu"><br /><span class="btnBack">Back</span></p>
-                    </td>
-                </tr>
             </table>
         </div>
 
-        <div id="GoalsPage" style="display:none;">
+        <div id="GoalsPage" style="display:none;" data-back="true" data-backloc="MainMenu">
             <table align="center">
-                <tr>
-                    <td colspan="2">
-                        <p id="goalsBackSelect" class="woodbutton" data-hide="GoalsPage" data-show="MainMenu"><br /><span class="btnBack">Back</span></p>
-                    </td>
-                </tr>
+
             </table>
         </div>
+
+        <div id="RewardsPage" style="display:none;" data-back="true" data-backloc="MainMenu">
+            <ul id="rewardsList" align="center">
+                
+            </ul>
+        </div>
+
+        <img id="backButton" style="width:140px;height:80px;position:absolute;right:0px;bottom:0px;display:none" />
 
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="scripts/platformOverrides.js"></script>

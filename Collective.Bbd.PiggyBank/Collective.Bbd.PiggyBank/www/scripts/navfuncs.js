@@ -6,6 +6,34 @@ var childId = -1;
 var savingsBalance = null;
 var pocketBalance = null;
 var exceedText = "Exceeded Limit";
+var visibleElm = null;
+
+function goBack() {
+    if (visibleElm == $("#MainMenu")) {
+        navigator.app.exitApp();
+    }
+    else if (visibleElm == $("#LangaugeMenu")) {
+        navigator.app.exitApp();
+    }
+    else if (visibleElm == $("#OTP")) {
+        visibleElm.hide(1000);
+        visibleElm = $("#LangaugeMenu");
+        visibleElm.show(1000);
+    }
+    else if (visibleElm != null) {
+        visibleElm.hide(1000);
+        visibleElm = $('#' + visibleElm.data('backloc'));
+        visibleElm.show(1000);
+
+        if (typeof visibleElm.data("back") !== typeof undefined && visibleElm.data("back") == true) {
+            $('#backButton').show(1000);
+        }
+        else {
+            $('#backButton').hide(1000);
+        }
+    }
+}
+
 function navContentClick(elem) {
     var elementsToHide = $(elem).data("hide").split(',');
     for (var a = 0; a < elementsToHide.length; a++) {
@@ -18,14 +46,24 @@ function showContentClick(elem) {
     for (var a = 0; a < elementsToShow.length; a++) {
         if (elementsToShow[a] == 'OTP') {
             if (GetData('OTPDone') && childId != -1) {
+                visibleElm = $("#MainMenu")
                 $("#MainMenu").show();
             }
             else {
+                visibleElm = $("#" + elementsToShow[a]);
                 $("#" + elementsToShow[a]).show(1000);
             }
         }
         else {
+            visibleElm = $("#" + elementsToShow[a]);
             $("#" + elementsToShow[a]).show(1000);
+        }
+
+        if (typeof visibleElm.data("back") !== typeof undefined && visibleElm.data("back") == true) {
+            $('#backButton').show(1000);
+        }
+        else {
+            $('#backButton').hide(1000);
         }
     }
 }
@@ -160,13 +198,16 @@ function SaveChild() {
 function GetChildData() {
     var id = GetData('ChildId');
     if (id == null || id == -1) {
+        visibleElm = $('#LangaugeMenu');
         $('#LangaugeMenu').show();
     }
     else {
         language = GetData('language');
         ChooseLanguage(language);
+        visibleElm = $('#MainMenu');
         $('#MainMenu').show();
         GetChild(id);
+        childId = id;
         $('#PocketValue').text(pocketBalance);
         $('#SavingsValue').text(savingsBalance);
     }
@@ -207,6 +248,30 @@ function TransferCallback(data) {
 
 }
 
+function DoRewards() {
+    var result = null;
+    jQuery.ajax({
+        type: 'GET',
+        url: baseUrl + "/Mobile/GetRewards/" + childId + "?callback=?",
+        jsonpCallback: 'GETREWARDSBACK',
+        dataType: 'jsonp',
+        crossDomain: true,
+    });
+}
+
+
+function GETREWARDSBACK(data) {
+    var items = [];
+    $("#rewardsList").empty();
+
+    $.each(data, function (i, item) {
+        items.push('<li style="background:white;margin:2px"><span>Task: ' + item.TaskToDo + '</span><br/><span>Reward: ' + item.RewardAmount + '</span></li>');
+    });
+
+    $('#rewardsList').append(items.join(''));
+}
+
+
 function SetData(key, value) {
     localStorage.setItem(key, value);
 }
@@ -219,6 +284,7 @@ function GetData(key) {
 function MakeEnglish() {
     var logoPath = "images/mascot3ENG.png";
     $('#MainLogo').attr('src', logoPath);
+    $('#backButton').attr('src', 'images/backEng.png');
     $('#TXTOTP').attr('placeholder', 'Enter One-Time-Pin');
     $('.btnSubmit').text('Submit');
     $('#btnMyPocket').text('My Pocket');
@@ -229,7 +295,6 @@ function MakeEnglish() {
     $('#TXTWithdrawAmount').attr('placeholder', 'Enter Amount Required');
     $('#TXTTransferAmount').attr('placeholder', 'Enter Amount To Transfer');
     exceedText = "Exceeded Limit";
-    $('.btnBack').text('Back');
     $('#btnTransfer').text('Transfer');
 
 }
@@ -237,6 +302,7 @@ function MakeEnglish() {
 function MakeAfrikaans() {
     var logoPath = "images/mascot3AFR.png";
     $('#MainLogo').attr('src', logoPath);
+    $('#backButton').attr('src', 'images/backAfr.png');
     $('#TXTOTP').attr('placeholder', 'Gee jou eenmalige Pinkode')
     $('.btnSubmit').text('Stuur')
     $('#btnMyPocket').text('My Beursie');
@@ -246,7 +312,6 @@ function MakeAfrikaans() {
     $('#btnSettings').html('Herstel<br/>Instellings');
     $('#TXTWithdrawAmount').attr('placeholder', 'Hoveel geld will jy ontrek?');
     exceedText = "Onvoldoende fondse";
-    $('.btnBack').text('Terug');
     $('#btnTransfer').text('Oordrag');
 
 
@@ -255,6 +320,7 @@ function MakeAfrikaans() {
 function MakeZulu() {
     var logoPath = "images/mascot3ZUL.png";
     $('#MainLogo').attr('src', logoPath);
+    $('#backButton').attr('src', 'images/backZul.png');
     $('#TXTOTP').attr('placeholder', 'Faka yakho Pin-isikhathi esisodwa')
     $('.btnSubmit').text('Uhambise')
     $('#btnMyPocket').html('Ephaketheni<br/>Lami');
@@ -264,7 +330,6 @@ function MakeZulu() {
     $('#btnSettings').html('Buyisela<br/>amasethingi');
     $('#TXTWithdrawAmount').attr('placeholder', 'Faka lemali edingekayo.');
     exceedText = "imali enganele";
-    $('.btnBack').text('Emuva');
     $('#btnTransfer').text('Ukudlulisa');
 
 }
@@ -276,18 +341,18 @@ $("#zuluSelect").click(function () { ChooseLanguage('isiZulu'); navContentClick(
 $("#otpSubmit").click(function () { DoOTP($("#otpSubmit")); });
 
 $("#myPocketSelect").click(function () { DoMyPocket(); navContentClick($("#myPocketSelect")); });
-$("#pocketBackSelect").click(function () { navContentClick($("#pocketBackSelect")); });
 
 $("#withdrawSelect").click(function () { navContentClick($("#withdrawSelect")); });
 $("#doWithdrawalSelect").click(function () { DoWithdrawl($("#doWithdrawalSelect")); });
-$("#withdrawBackSelect").click(function () { navContentClick($("#withdrawBackSelect")); });
 
 $("#transferSelect").click(function () { navContentClick($("#transferSelect")); });
 $("#doTransferSelect").click(function () { DoTransfer($("#doTransferSelect")); });
-$("#transferBackSelect").click(function () { navContentClick($("#transferBackSelect")); });
 
 $("#btnSettings").click(function () { ClearChild(); navContentClick($("#btnSettings")); });
 
 $("#goalsSelect").click(function () { navContentClick($("#goalsSelect")); });
-$("#goalsBackSelect").click(function () { navContentClick($("#goalsBackSelect")); });
+
+$("#rewardsSelect").click(function () { DoRewards(); navContentClick($("#rewardsSelect")); });
+
+$("#backButton").click(function () { goBack(); });
 
