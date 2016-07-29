@@ -6,11 +6,14 @@ var childId = -1;
 var savingsBalance = null;
 var pocketBalance = null;
 var exceedText = "Exceeded Limit";
-function showContentClick(elem) {
+function navContentClick(elem) {
     var elementsToHide = $(elem).data("hide").split(',');
     for (var a = 0; a < elementsToHide.length; a++) {
-        $("#" + elementsToHide[a]).hide();
+        $("#" + elementsToHide[a]).hide(1000, showContentClick(elem));
     }
+}
+
+function showContentClick(elem) {
     var elementsToShow = $(elem).data("show").split(',')
     for (var a = 0; a < elementsToShow.length; a++) {
         if (elementsToShow[a] == 'OTP') {
@@ -18,11 +21,11 @@ function showContentClick(elem) {
                 $("#MainMenu").show();
             }
             else {
-                $("#" + elementsToShow[a]).show();
+                $("#" + elementsToShow[a]).show(1000);
             }
         }
         else {
-            $("#" + elementsToShow[a]).show();
+            $("#" + elementsToShow[a]).show(1000);
         }
     }
 }
@@ -75,7 +78,7 @@ function DoOTP(elem) {
             if (childId != -1) {
                 $('#TXTOTP').val('');
                 SetData('OTPDone', true);
-                showContentClick(elem);
+                navContentClick(elem);
             }
 
             else {
@@ -108,7 +111,7 @@ function DoWithdrawl(elem) {
             jsonpCallback: 'WithdrawCALLBACK',
             success: function (data) {
 
-                showContentClick(elem);
+                navContentClick(elem);
             }
 
         });
@@ -188,7 +191,7 @@ function DoTransfer(elem) {
             jsonpCallback: 'TransferCallback',
             success: function (data) {
 
-                showContentClick(elem);
+                navContentClick(elem);
             }
 
         });
@@ -266,16 +269,16 @@ function MakeZulu() {
 
 }
 
-document.getElementById("engSelect").addEventListener("click", function () { ChooseLanguage('English'); showContentClick(document.getElementById("engSelect")); });
-document.getElementById("afrSelect").addEventListener("click", function () { ChooseLanguage('Afrikaans'); showContentClick(document.getElementById("afrSelect")); });
-document.getElementById("zuluSelect").addEventListener("click", function () { ChooseLanguage('isiZulu'); showContentClick(document.getElementById("zuluSelect")); });
+document.getElementById("engSelect").addEventListener("click", function () { ChooseLanguage('English'); navContentClick(document.getElementById("engSelect")); });
+document.getElementById("afrSelect").addEventListener("click", function () { ChooseLanguage('Afrikaans'); navContentClick(document.getElementById("afrSelect")); });
+document.getElementById("zuluSelect").addEventListener("click", function () { ChooseLanguage('isiZulu'); navContentClick(document.getElementById("zuluSelect")); });
 document.getElementById("otpSubmit").addEventListener("click", function () { DoOTP(document.getElementById("otpSubmit")); });
-document.getElementById("myPocketSelect").addEventListener("click", function () { DoMyPocket(); showContentClick(document.getElementById("myPocketSelect")); });
-document.getElementById("withdrawSelect").addEventListener("click", function () { showContentClick(document.getElementById("withdrawSelect")); });
-document.getElementById("transferSelect").addEventListener("click", function () { showContentClick(document.getElementById("transferSelect")); });
-document.getElementById("btnSettings").addEventListener("click", function () { ClearChild(); showContentClick(document.getElementById("btnSettings")); });
-document.getElementById("settingsSelect").addEventListener("click", function () { showContentClick(document.getElementById("settingsSelect")); });
+document.getElementById("myPocketSelect").addEventListener("click", function () { DoMyPocket(); navContentClick(document.getElementById("myPocketSelect")); });
+document.getElementById("withdrawSelect").addEventListener("click", function () { navContentClick(document.getElementById("withdrawSelect")); });
+document.getElementById("transferSelect").addEventListener("click", function () { navContentClick(document.getElementById("transferSelect")); });
+document.getElementById("btnSettings").addEventListener("click", function () { ClearChild(); navContentClick(document.getElementById("btnSettings")); });
+document.getElementById("settingsSelect").addEventListener("click", function () { navContentClick(document.getElementById("settingsSelect")); });
 document.getElementById("doTransferSelect").addEventListener("click", function () { DoTransfer(document.getElementById("doTransferSelect")); });
-document.getElementById("transferBackSelect").addEventListener("click", function () { showContentClick(document.getElementById("transferBackSelect")); });
+document.getElementById("transferBackSelect").addEventListener("click", function () { navContentClick(document.getElementById("transferBackSelect")); });
 document.getElementById("doWithdrawalSelect").addEventListener("click", function () { DoWithdrawl(document.getElementById("doWithdrawalSelect")); });
-document.getElementById("withdrawBackSelect").addEventListener("click", function () { showContentClick(document.getElementById("withdrawBackSelect")); });
+document.getElementById("withdrawBackSelect").addEventListener("click", function () { navContentClick(document.getElementById("withdrawBackSelect")); });

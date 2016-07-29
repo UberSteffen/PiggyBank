@@ -61,6 +61,12 @@ namespace PiggyBank.Web.Controllers
             return new JsonpResult(child);
         }
 
+        [HttpGet]
+        public JsonpResult GetRewards(int id)
+        {
+            var rewardsForChild = dbhelper.GetRewardsForChild(id);
+            return new JsonpResult(rewardsForChild);
+        }
 
         public JsonpResult Withdraw(int id, int amount)
         {
