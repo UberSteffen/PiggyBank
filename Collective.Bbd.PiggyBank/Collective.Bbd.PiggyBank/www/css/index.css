@@ -70,6 +70,50 @@ table {
 }
 
 
+.RewardPocket {
+    font-weight: bold;
+    left: 5px;
+    position: absolute;
+    color: lightgreen;
+    font-size: 15px;
+    text-shadow: 1px 1px black;
+}
+
+
+.RewardSavings {
+    font-weight: bold;
+    right: 5px;
+    position: absolute;
+    color: blue;
+    font-size: 15px;
+    text-shadow: 1px 1px #eeeeee;
+}
+
+.RewardTask {
+    font-weight: bold;
+    font-size: medium;
+    color: white;
+    text-shadow: 1px 1px black;
+}
+
+#rewardsList {
+    list-style: none;
+}
+
+
+    #rewardsList li {
+        background: linear-gradient(to bottom, #e2b792, #bb9473);
+        margin: 5px;
+        position: relative;
+        display: block;
+        min-height: 33px;
+        color: white;
+        text-shadow: 1px 1px black;
+        padding-bottom: 10px;
+        border: 1px solid #929292;
+        border-radius: 2px;
+    }
+
 @keyframes fade {
     from {
         opacity: 1.0;

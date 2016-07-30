@@ -33,7 +33,7 @@ namespace PiggyBank.Web.Controllers
                     string callbackfunction = Request["callback"];
                     if (string.IsNullOrEmpty(callbackfunction))
                     {
-                        throw new Exception("Callback function name must be provided in the request!");
+                        return;
                     }
                     Response.ContentType = "application/x-javascript";
                     if (data != null)

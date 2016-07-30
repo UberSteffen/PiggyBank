@@ -265,7 +265,9 @@ function GETREWARDSBACK(data) {
     $("#rewardsList").empty();
 
     $.each(data, function (i, item) {
-        items.push('<li style="background:white;margin:2px"><span>Task: ' + item.TaskToDo + '</span><br/><span>Reward: ' + item.RewardAmount + '</span></li>');
+        var savingsMoney = parseFloat(item.RewardAmount) * parseFloat(item.SplitPercentage) / 100;
+        var task = item.TaskToDo != null ? item.TaskToDo : "Extra Reward";
+        items.push('<li><span class="RewardTask"> ' + task + '</span><br/><span class="RewardPocket"> ' + (item.RewardAmount -savingsMoney).toString() + '</span> <span class="RewardSavings"> ' + savingsMoney.toString() + '</span></li>');
     });
 
     $('#rewardsList').append(items.join(''));
