@@ -290,6 +290,7 @@
     <Content Include="Views\Shared\_NumberOfRequests.cshtml" />
     <Content Include="Views\Child\Rewards.cshtml" />
     <Content Include="Views\Child\AddReward.cshtml" />
+    <Content Include="Views\Child\DisplayOTP.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -289,6 +289,18 @@ namespace PiggyBank.Web.Controllers
         }
 
 
+        public ActionResult DisplayOTP(int id)
+        {
+            var child = dbhelper.GetChild(id);
+            if(child != null)
+            {
+                return PartialView(new DataItem { Value = child.PIN.ToString() });
+            }
+
+            return null;
+        }
+
+
         #region Helpers
         public ActionResult GetChildName(int id)
         {
