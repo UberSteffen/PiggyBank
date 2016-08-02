@@ -208,6 +208,10 @@
     <Compile Include="Migrations\201607282015570_Rewards.Designer.cs">
       <DependentUpon>201607282015570_Rewards.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201608011403246_goals.cs" />
+    <Compile Include="Migrations\201608011403246_goals.Designer.cs">
+      <DependentUpon>201608011403246_goals.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Child.cs" />
@@ -215,6 +219,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\OTPModel.cs" />
     <Compile Include="Models\PaymentModel.cs" />
+    <Compile Include="Models\Goal.cs" />
     <Compile Include="Models\Reward.cs" />
     <Compile Include="Models\SendSMS.cs" />
     <Compile Include="Models\Settings.cs" />
@@ -328,6 +333,9 @@
     <EmbeddedResource Include="Migrations\201607282015570_Rewards.resx">
       <DependentUpon>201607282015570_Rewards.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608011403246_goals.resx">
+      <DependentUpon>201608011403246_goals.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -347,7 +355,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>50311</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:50311/</IISUrl>
+          <IISUrl>http://192.168.43.215:50311/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

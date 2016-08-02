@@ -9,9 +9,16 @@
 
     function onDeviceReady() {
         // Handle the Cordova pause and resume events
-        document.addEventListener( 'pause', onPause.bind( this ), false );
+        document.addEventListener('pause', onPause.bind( this ), false );
         document.addEventListener('resume', onResume.bind(this), false);
+        document.addEventListener("backbutton", onBackButton.bind(this), false);
+        window.addEventListener('native.keyboardshow', function () { $("#backButton").hide(); $("#addButton").hide(); $("#exitButton").hide(); })
+        window.addEventListener('native.keyboardhide', function () { toggleButtons(); })
     };
+
+    function onBackButton() {
+        goBack();
+    }
 
     function onPause() {
         // TODO: This application has been suspended. Save application state here.

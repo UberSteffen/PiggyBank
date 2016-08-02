@@ -5,7 +5,7 @@
         Customize the content security policy in the meta tag below as needed. Add 'unsafe-inline' to default-src to enable inline JavaScript.
         For details, see http://go.microsoft.com/fwlink/?LinkID=617521
     -->
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: http://localhost:50311 https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
+        <meta http-equiv="Content-Security-Policy" content="img-src 'self' content:;default-src 'self' data: gap: http://192.168.43.215:50311 https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
         
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
@@ -20,7 +20,7 @@
 
         </div>
 
-        <div id="LangaugeMenu" style="display:none;">
+        <div id="LangaugeMenu" data-exit="true" style="display:none;">
 
             <table align="center">
 
@@ -46,7 +46,7 @@
             <table align="center">
                 <tr>
                     <td style="text-align:center;align-self:center;">
-                        <input type="text" id="TXTOTP" name="TXTOTP" onkeypress='return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 0' maxlength="4" placeholder="Enter One-Time-Pin" />
+                        <input class="numberInput" type="text" id="TXTOTP" name="TXTOTP" onkeypress='return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 0' maxlength="4" placeholder="Enter One-Time-Pin" />
                     </td>
                 </tr>
                 <tr>
@@ -57,7 +57,7 @@
             </table>
         </div>
 
-        <div id="MainMenu" style="display:none;">
+        <div id="MainMenu" style="display:none;" data-exit="true">
             <table align="center" class="horizontal-table">
                 <tr>
                     <td>
@@ -105,7 +105,7 @@
             <table align="center">
                 <tr>
                     <td style="text-align:center;align-self:center;">
-                        <input type="text" id="TXTTransferAmount" onkeypress='return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 0 ' placeholder="Enter Amount" />
+                        <input class="numberInput" type="text" id="TXTTransferAmount" onkeypress='return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 0 ' placeholder="Enter Amount" />
                     </td>
                 </tr>
                 <tr>
@@ -120,7 +120,7 @@
             <table align="center">
                 <tr>
                     <td style="text-align:center;align-self:center;">
-                        <input type="text" id="TXTWithdrawAmount" onkeypress='return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 0 ' placeholder="Enter Amount" />
+                        <input class="numberInput" type="text" id="TXTWithdrawAmount" onkeypress='return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 0 ' placeholder="Enter Amount" />
                     </td>
                 </tr>
                 <tr>
@@ -131,9 +131,29 @@
             </table>
         </div>
 
-        <div id="GoalsPage" style="display:none;" data-back="true" data-backloc="MainMenu">
+        <div id="GoalsPage" style="display:none;" data-back="true" data-backloc="MainMenu" data-add="true">
             <table align="center">
+                <tr>
+                    <td style="text-align:center;align-self:center;">
+                        <ul id="goalsList" align="center"></ul>
+                    </td>
+                </tr>
+            </table>
+        </div>
 
+        <div id="AddGoalPage" style="display:none;" data-back="true" data-backloc="GoalsPage">
+            <table align="center">
+                <tr>
+                    <td style="text-align:center;align-self:center;">
+                        <input type="text" id="TXTGoalName" placeholder="Enter Name" />
+                        <input class="numberInput" type="text" id="TXTGoalAmount" placeholder="Enter Amount" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p id="doAddGoalSubmit" class="woodbutton" data-hide="AddGoalPage" data-show="GoalsPage"><br /><span class="btnSubmit">Submit</span></p>
+                    </td>
+                </tr>
             </table>
         </div>
 
@@ -143,7 +163,11 @@
             </ul>
         </div>
 
-        <img id="backButton" style="width:140px;height:80px;position:absolute;right:0px;bottom:0px;display:none" />
+        <img id="backButton" style="width:140px;height:80px;position:fixed;right:0px;bottom:0px;display:none" />
+
+        <img id="exitButton" style="width:140px;height:80px;position:fixed;right:0px;bottom:0px;display:none" />
+
+        <img id="addButton" data-hide="GoalsPage" data-show="AddGoalPage" style="width:140px;height:80px;position:fixed;left:0px;bottom:0px;display:none" />
 
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="scripts/platformOverrides.js"></script>

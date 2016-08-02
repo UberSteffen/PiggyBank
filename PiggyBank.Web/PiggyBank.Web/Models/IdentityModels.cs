@@ -30,5 +30,7 @@ namespace PiggyBank.Web.Models
         public DbSet<WithdrawlRequest> Requests { get; set; }
 
         public DbSet<Reward> Rewards { get; set; }
+
+        public DbSet<Goal> Goals { get; set; }
     }
 }

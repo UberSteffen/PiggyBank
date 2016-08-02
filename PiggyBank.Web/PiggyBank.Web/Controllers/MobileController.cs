@@ -68,6 +68,48 @@ namespace PiggyBank.Web.Controllers
             return new JsonpResult(rewardsForChild);
         }
 
+        [HttpGet]
+        public JsonpResult GetGoals(int id)
+        {
+            var goalsForChild = dbhelper.GetGoalsForChild(id);
+            return new JsonpResult(goalsForChild);
+        }
+
+        [HttpGet]
+        public JsonpResult AddGoal(Goal model)
+        {
+            if (model.ChildId != -1)
+            {
+                if (model.Image == null)
+                {
+                    model.Image = "none";
+                }
+                bool success = dbhelper.AddGoal(model);
+                if (success)
+                {
+                    return new JsonpResult(new { result = WorkStatus.Success.ToString() });
+                }
+            }
+
+            return new JsonpResult(new { result = WorkStatus.Failed.ToString() });
+
+        }
+
+        public JsonpResult DeleteGoal(int id)
+        {
+            if (id != -1)
+            {
+                bool success = dbhelper.DeleteGoal(id);
+                if (success)
+                {
+                    return new JsonpResult(new { result = WorkStatus.Success.ToString() });
+                }
+            }
+
+            return new JsonpResult(new { result = WorkStatus.Failed.ToString() });
+
+        }
+
         public JsonpResult Withdraw(int id, int amount)
         {
             if(id != -1)

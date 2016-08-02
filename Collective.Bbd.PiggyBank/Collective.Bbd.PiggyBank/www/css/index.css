@@ -9,6 +9,26 @@ body {
     padding-top: 20px;
 }
 
+li img {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+li p {
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    color:red;
+}
+
+ul {
+    padding: 0;
+    height: 300px;
+    overflow:hidden;
+    overflow-y:scroll;
+}
+
 input {
     background: white;
     border-radius: 5px;
@@ -79,6 +99,13 @@ table {
     text-shadow: 1px 1px black;
 }
 
+.GoalPocket {
+    font-weight: bold;
+    color: lightgreen;
+    font-size: 15px;
+    text-shadow: 1px 1px black;
+}
+
 
 .RewardSavings {
     font-weight: bold;
@@ -95,6 +122,24 @@ table {
     color: white;
     text-shadow: 1px 1px black;
 }
+
+#goalsList {
+    list-style: none;
+}
+
+
+    #goalsList li {
+        background: linear-gradient(to bottom, #e2b792, #bb9473);
+        margin: 5px;
+        position: relative;
+        display: block;
+        min-height: 33px;
+        color: white;
+        text-shadow: 1px 1px black;
+        padding-bottom: 10px;
+        border: 1px solid #929292;
+        border-radius: 2px;
+    }
 
 #rewardsList {
     list-style: none;

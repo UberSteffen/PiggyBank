@@ -1,4 +1,4 @@
-﻿var baseUrl = 'http://localhost:50311';
+﻿var baseUrl = 'http://192.168.43.215:50311';
 
 var otp = 1234;
 var language = 'ENG';
@@ -9,35 +9,53 @@ var exceedText = "Exceeded Limit";
 var visibleElm = null;
 
 function goBack() {
-    if (visibleElm == $("#MainMenu")) {
+    if (visibleElm.attr('id') == $("#MainMenu").attr('id')) {
         navigator.app.exitApp();
     }
-    else if (visibleElm == $("#LangaugeMenu")) {
+    else if (visibleElm.attr('id') == $("#LangaugeMenu").attr('id')) {
         navigator.app.exitApp();
     }
-    else if (visibleElm == $("#OTP")) {
-        visibleElm.hide(1000);
+    else if (visibleElm.attr('id') == $("#OTP").attr('id')) {
+        visibleElm.hide(500);
         visibleElm = $("#LangaugeMenu");
-        visibleElm.show(1000);
+        visibleElm.show(500);
     }
     else if (visibleElm != null) {
-        visibleElm.hide(1000);
+        visibleElm.hide(500);
         visibleElm = $('#' + visibleElm.data('backloc'));
-        visibleElm.show(1000);
+        visibleElm.show(500);
 
-        if (typeof visibleElm.data("back") !== typeof undefined && visibleElm.data("back") == true) {
-            $('#backButton').show(1000);
-        }
-        else {
-            $('#backButton').hide(1000);
-        }
+        toggleButtons();
+    }
+}
+
+function toggleButtons() {
+    if (typeof visibleElm.data("back") !== typeof undefined && visibleElm.data("back") == true) {
+        $('#backButton').show(500);
+    }
+    else {
+        $('#backButton').hide(500);
+    }
+
+    if (typeof visibleElm.data("exit") !== typeof undefined && visibleElm.data("exit") == true) {
+        $('#exitButton').show(500);
+    }
+    else {
+        $('#exitButton').hide(500);
+    }
+
+    if (typeof visibleElm.data("add") !== typeof undefined && visibleElm.data("add") == true) {
+        $('#addButton').show(500);
+    }
+    else {
+        $('#addButton').hide(500);
     }
 }
 
 function navContentClick(elem) {
     var elementsToHide = $(elem).data("hide").split(',');
     for (var a = 0; a < elementsToHide.length; a++) {
-        $("#" + elementsToHide[a]).hide(1000, showContentClick(elem));
+        $("#" + elementsToHide[a]).hide(500, showContentClick(elem));
     }
 }
 
@@ -51,20 +69,15 @@ function showContentClick(elem) {
             }
             else {
                 visibleElm = $("#" + elementsToShow[a]);
-                $("#" + elementsToShow[a]).show(1000);
+                $("#" + elementsToShow[a]).show(500);
             }
         }
         else {
             visibleElm = $("#" + elementsToShow[a]);
-            $("#" + elementsToShow[a]).show(1000);
+            $("#" + elementsToShow[a]).show(500);
         }
 
-        if (typeof visibleElm.data("back") !== typeof undefined && visibleElm.data("back") == true) {
-            $('#backButton').show(1000);
-        }
-        else {
-            $('#backButton').hide(1000);
-        }
+        toggleButtons();
     }
 }
 
@@ -89,7 +102,8 @@ function ChooseLanguage(lang) {
 $(document).ready(function () {
     GetChildData();
     ChooseLanguage(language);
-    $("input").on("keypress", function (event) { return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 0 })
+    $(".numberInput").on("keypress", function (event) { return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 0 })
+    toggleButtons()
 });
 
 function SaveLanguage(lang) {
@@ -248,6 +262,116 @@ function TransferCallback(data) {
 
 }
 
+function DoGoals() {
+    var result = null;
+    jQuery.ajax({
+        type: 'GET',
+        url: baseUrl + "/Mobile/GetGoals/" + childId + "?callback=?",
+        jsonpCallback: 'GETGOALSBACK',
+        dataType: 'jsonp',
+        crossDomain: true,
+    });
+}
+
+
+function GETGOALSBACK(data) {
+    var items = [];
+    $("#goalsList").empty();
+
+    $.each(data, function (i, item) {
+        var goalid = 'goalItem' + item.Id;
+        if (item.Image != null && item.Image != "" && item.Image != "none") {
+            items.push('<li><p id="' + goalid + '" data-delid="' + item.Id + '">X</p><span class="RewardTask">' + item.GoalName + '</span><br/><span class="GoalPocket"> ' + item.GoalAmount + '</span></div><img style="width:60px;height:40px" src="' + item.Image + '" /></li>');
+        }
+        else {
+            items.push('<li><p id="' + goalid + '" data-delid="' + item.Id + '">X</p><span class="RewardTask">' + item.GoalName + '</span><br/><span class="GoalPocket"> ' + item.GoalAmount + '</span> </li>');
+        }
+    });
+
+    $('#goalsList').append(items.join(''));
+
+    $.each(data, function (i, item) {
+        var goalid = 'goalItem' + item.Id;
+        $("#" + goalid).click(function () { DoDeleteGoal($("#" + goalid)); });
+    });
+}
+
+function DoAddGoal() {
+    navigator.notification.confirm(
+        'Would you like to add a picture?',
+        HandlePicture,
+        'Goal',
+        ['New', 'Gallery', 'No thanks']
+    );
+}
+
+function HandlePicture(buttonIndex) {
+    if (buttonIndex == 1) {
+        navigator.camera.getPicture(function (imageUri) { CallAddGoal(imageUri); }, function (message) { CallAddGoal(""); }, {
+            quality: 10,
+            destinationType: Camera.DestinationType.FILE_URI,
+            sourceType: Camera.PictureSourceType.CAMERA
+        });
+    }
+    else if (buttonIndex == 2) {
+        navigator.camera.getPicture(function (imageUri) { CallAddGoal(imageUri); }, function (message) { CallAddGoal(""); }, {
+            quality:10,
+            destinationType: Camera.DestinationType.FILE_URI,
+            sourceType: Camera.PictureSourceType.PHOTOLIBRARY
+        });
+    }
+    else {
+        CallAddGoal("");
+    }
+}
+
+function CallAddGoal(image) {
+    var name = $('#TXTGoalName').val();
+    var amount = $('#TXTGoalAmount').val();
+
+    var data = { 'ChildId': childId, "GoalName": name, "GoalAmount": amount, "Image": image };
+
+    jQuery.ajax({
+        type: 'POST',
+        url: baseUrl + "/Mobile/AddGoal/",
+        data: data,
+        dataType: 'jsonp',
+        crossDomain: true,
+        success: function (responseData, textStatus, jqXHR) {
+            DoGoals();
+        },
+        error: function (responseData, textStatus, errorThrown) {
+            DoGoals();
+        }
+    });
+
+    $('#TXTGoalName').val('');
+    $('#TXTGoalAmount').val('');
+}
+
+function DoDeleteGoal(elem) {
+    navigator.notification.confirm(
+        'Are you sure you want to delete this goal?',
+        function (buttonIndex) {
+            if (buttonIndex == 1) {
+                jQuery.ajax({
+                    type: 'GET',
+                    url: baseUrl + "/Mobile/DeleteGoal/" + elem.data("delid") + "?callback=?",
+                    jsonpCallback: 'DELETEGOALBACK',
+                    dataType: 'jsonp',
+                    crossDomain: true,
+                });
+            }
+        },
+        'Goal',
+        ['Yes', 'No']
+    );
+}
+
+function DELETEGOALBACK(data) {
+    DoGoals();
+}
+
 function DoRewards() {
     var result = null;
     jQuery.ajax({
@@ -267,7 +391,7 @@ function GETREWARDSBACK(data) {
     $.each(data, function (i, item) {
         var savingsMoney = parseFloat(item.RewardAmount) * parseFloat(item.SplitPercentage) / 100;
         var task = item.TaskToDo != null ? item.TaskToDo : "Extra Reward";
-        items.push('<li><span class="RewardTask"> ' + task + '</span><br/><span class="RewardPocket"> ' + (item.RewardAmount -savingsMoney).toString() + '</span> <span class="RewardSavings"> ' + savingsMoney.toString() + '</span></li>');
+        items.push('<li><span class="RewardTask"> ' + task + '</span><br/><span class="RewardPocket"> ' + (item.RewardAmount - savingsMoney).toString() + '</span> <span class="RewardSavings"> ' + savingsMoney.toString() + '</span></li>');
     });
 
     $('#rewardsList').append(items.join(''));
@@ -287,6 +411,8 @@ function MakeEnglish() {
     var logoPath = "images/mascot3ENG.png";
     $('#MainLogo').attr('src', logoPath);
     $('#backButton').attr('src', 'images/backEng.png');
+    $('#exitButton').attr('src', 'images/exitEng.png');
+    $('#addButton').attr('src', 'images/addEng.png');
     $('#TXTOTP').attr('placeholder', 'Enter One-Time-Pin');
     $('.btnSubmit').text('Submit');
     $('#btnMyPocket').text('My Pocket');
@@ -298,13 +424,17 @@ function MakeEnglish() {
     $('#TXTTransferAmount').attr('placeholder', 'Enter Amount To Transfer');
     exceedText = "Exceeded Limit";
     $('#btnTransfer').text('Transfer');
-
+    $('#spanAddGoal').html('Add');
+    $('#TXTGoalName').attr('placeholder', 'Enter Name');
+    $('#TXTGoalAmount').attr('placeholder', 'Enter Amount');
 }
 
 function MakeAfrikaans() {
     var logoPath = "images/mascot3AFR.png";
     $('#MainLogo').attr('src', logoPath);
     $('#backButton').attr('src', 'images/backAfr.png');
+    $('#exitButton').attr('src', 'images/exitAfr.png');
+    $('#addButton').attr('src', 'images/addAfr.png');
     $('#TXTOTP').attr('placeholder', 'Gee jou eenmalige Pinkode')
     $('.btnSubmit').text('Stuur')
     $('#btnMyPocket').text('My Beursie');
@@ -315,14 +445,17 @@ function MakeAfrikaans() {
     $('#TXTWithdrawAmount').attr('placeholder', 'Hoveel geld will jy ontrek?');
     exceedText = "Onvoldoende fondse";
     $('#btnTransfer').text('Oordrag');
-
-
+    $('#spanAddGoal').html('Voeg');
+    $('#TXTGoalName').attr('placeholder', 'Tik Naam');
+    $('#TXTGoalAmount').attr('placeholder', 'Gee Bedrag');
 }
 
 function MakeZulu() {
     var logoPath = "images/mascot3ZUL.png";
     $('#MainLogo').attr('src', logoPath);
     $('#backButton').attr('src', 'images/backZul.png');
+    $('#exitButton').attr('src', 'images/exitZul.png');
+    $('#addButton').attr('src', 'images/addZul.png');
     $('#TXTOTP').attr('placeholder', 'Faka yakho Pin-isikhathi esisodwa')
     $('.btnSubmit').text('Uhambise')
     $('#btnMyPocket').html('Ephaketheni<br/>Lami');
@@ -333,7 +466,9 @@ function MakeZulu() {
     $('#TXTWithdrawAmount').attr('placeholder', 'Faka lemali edingekayo.');
     exceedText = "imali enganele";
     $('#btnTransfer').text('Ukudlulisa');
-
+    $('#spanAddGoal').html('Engeza');
+    $('#TXTGoalName').attr('placeholder', 'Faka Igama');
+    $('#TXTGoalAmount').attr('placeholder', 'Faka inani');
 }
 
 $("#engSelect").click(function () { ChooseLanguage('English'); navContentClick($("#engSelect")); });
@@ -352,9 +487,12 @@ $("#doTransferSelect").click(function () { DoTransfer($("#doTransferSelect")); }
 
 $("#btnSettings").click(function () { ClearChild(); navContentClick($("#btnSettings")); });
 
-$("#goalsSelect").click(function () { navContentClick($("#goalsSelect")); });
+$("#goalsSelect").click(function () { DoGoals(); navContentClick($("#goalsSelect")); });
+$("#doAddGoalSubmit").click(function () { DoAddGoal(); navContentClick($("#doAddGoalSubmit")); });
 
 $("#rewardsSelect").click(function () { DoRewards(); navContentClick($("#rewardsSelect")); });
 
 $("#backButton").click(function () { goBack(); });
+$("#exitButton").click(function () { navigator.app.exitApp(); });
+$("#addButton").click(function () { navContentClick($("#addButton")); });
 

@@ -19,7 +19,11 @@ namespace PiggyBank.Web
               url: "{controller}/{action}/{id}/{task}",
               defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional, task = UrlParameter.Optional }
           );
-
+            routes.MapRoute(
+                       name: "Goals",
+                       url: "{controller}/{action}/{id}/{name}/{amount}/{image}",
+                       defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional, amount = UrlParameter.Optional, image = UrlParameter.Optional }
+                   );
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

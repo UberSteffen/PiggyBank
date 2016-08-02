@@ -448,6 +448,58 @@ namespace PiggyBank.Web.DatabaseHelper
 
         #endregion
 
+        #region Goals
+
+        public List<Goal> GetGoalsForChild(int childId)
+        {
+            try
+            {
+                var childsGoals = db.Goals.Where(r => r.ChildId == childId).ToList();
+                return childsGoals;
+            }
+            catch (Exception)
+            {
+                return new List<Goal>();
+            }
+        }
+
+        public bool AddGoal(Goal model)
+        {
+            try
+            {
+                db.Goals.Add(model);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+        }
+
+        public bool DeleteGoal(int id)
+        {
+            try
+            {
+                var item = db.Goals.FirstOrDefault(x => x.Id == id);
+                if (item != null)
+                {
+                    db.Goals.Remove(item);
+                    db.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+        }
+
+        #endregion
+
         #region Rewards
 
         public List<Reward> GetRewardsForParent(string parentId)
@@ -480,7 +532,6 @@ namespace PiggyBank.Web.DatabaseHelper
                 return new List<Reward>();
             }
         }
-
 
         public bool AddReward(Reward model, string parentId)
         {
