@@ -1,0 +1,38 @@
+﻿@model PiggyBank.Web.Models.DataItem
+
+<div class="popup" id="DisplayOTPPopup">
+
+
+    <h4>One Time PIN</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Your Childs OTP is :
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Value)
+        </dd>
+      
+
+    </dl>
+    <div class="col-lg-offset-11 col-lg-1">
+        <input type="button" value="OK" class="btn btn-success" onclick="HidePopup()" />
+
+    </div>
+
+    
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+
+
+    <script>
+        function HidePopup()
+        {
+            $("#DisplayOTPPopup").toggle();
+
+        }
+    </script>
+</div>
