@@ -12,8 +12,9 @@
         document.addEventListener('pause', onPause.bind( this ), false );
         document.addEventListener('resume', onResume.bind(this), false);
         document.addEventListener("backbutton", onBackButton.bind(this), false);
-        window.addEventListener('native.keyboardshow', function () { $("#backButton").hide(); $("#addButton").hide(); $("#exitButton").hide(); })
-        window.addEventListener('native.keyboardhide', function () { toggleButtons(); })
+        document.addEventListener('showkeyboard', function () { $("#backButton").hide(); $("#addButton").hide(); $("#exitButton").hide(); }, false);
+        document.addEventListener('hidekeyboard', function () { toggleButtons(); }, false);
+        toggleButtons();
     };
 
     function onBackButton() {

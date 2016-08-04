@@ -19,14 +19,14 @@ li p {
     position: absolute;
     top: 5px;
     left: 10px;
-    color:red;
+    color: red;
 }
 
 ul {
     padding: 0;
     height: 300px;
-    overflow:hidden;
-    overflow-y:scroll;
+    overflow: hidden;
+    overflow-y: scroll;
 }
 
 input {
@@ -42,8 +42,8 @@ input {
 
 .woodbutton {
     background: url(../images/woodbutton.png) no-repeat center;
-    max-height: 60px;
-    height: auto;
+    max-height: 80px;
+    height: 45px;
     max-width: 550px;
     padding-bottom: 30px;
     text-align: center;
@@ -158,6 +158,10 @@ table {
         border: 1px solid #929292;
         border-radius: 2px;
     }
+
+.insufficient {
+    color: red !important;
+}
 
 @keyframes fade {
     from {

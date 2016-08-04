@@ -24,9 +24,9 @@ function goBack() {
         visibleElm.hide(500);
         visibleElm = $('#' + visibleElm.data('backloc'));
         visibleElm.show(500);
-
-        toggleButtons();
     }
+
+    toggleButtons();
 }
 
 function toggleButtons() {
@@ -280,11 +280,17 @@ function GETGOALSBACK(data) {
 
     $.each(data, function (i, item) {
         var goalid = 'goalItem' + item.Id;
+        var makeItRain = savingsBalance < parseFloat(item.GoalAmount);
+        var spanClass = "GoalPocket";
+        if (makeItRain) {
+            spanClass += " insufficient"
+        }
+
         if (item.Image != null && item.Image != "" && item.Image != "none") {
-            items.push('<li><p id="' + goalid + '" data-delid="' + item.Id + '">X</p><span class="RewardTask">' + item.GoalName + '</span><br/><span class="GoalPocket"> ' + item.GoalAmount + '</span></div><img style="width:60px;height:40px" src="' + item.Image + '" /></li>');
+            items.push('<li><p id="' + goalid + '" data-delid="' + item.Id + '">X</p><span class="RewardTask">' + item.GoalName + '</span><br/><span class="' + spanClass + '"> ' + item.GoalAmount + '</span></div><img style="width:60px;height:40px" src="' + item.Image + '" /></li>');
         }
         else {
-            items.push('<li><p id="' + goalid + '" data-delid="' + item.Id + '">X</p><span class="RewardTask">' + item.GoalName + '</span><br/><span class="GoalPocket"> ' + item.GoalAmount + '</span> </li>');
+            items.push('<li><p id="' + goalid + '" data-delid="' + item.Id + '">X</p><span class="RewardTask">' + item.GoalName + '</span><br/><span class="' + spanClass + '"> ' + item.GoalAmount + '</span> </li>');
         }
     });
 
@@ -315,7 +321,7 @@ function HandlePicture(buttonIndex) {
     }
     else if (buttonIndex == 2) {
         navigator.camera.getPicture(function (imageUri) { CallAddGoal(imageUri); }, function (message) { CallAddGoal(""); }, {
-            quality:10,
+            quality: 10,
             destinationType: Camera.DestinationType.FILE_URI,
             sourceType: Camera.PictureSourceType.PHOTOLIBRARY
         });
