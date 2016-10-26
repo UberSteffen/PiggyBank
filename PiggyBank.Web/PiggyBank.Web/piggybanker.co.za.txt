@@ -1,7 +1,7 @@
 ﻿Control Panel:
-URL: http://cp.cpt.wa.co.za
-Username: piggyba1
-Password: b1fTl233Sx
+URL: https://PLESK-WIN01.HKDNS.CO.ZA:8443
+Username: piggyban
+Password: ovooxich3488
 
 FTP:
 URL: ftp://ftp.piggybanker.co.za
@@ -9,3 +9,8 @@ Username: piggybank46629_ftp
 Password: BBD@dmin1
 
 
+Database:
+Host: 197.189.255.211
+Catalog: piggyban_piggybank
+Username: piggyban_1
+Password: BBD@dmin1
